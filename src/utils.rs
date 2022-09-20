@@ -2,7 +2,7 @@ use std::io::{stdin, stdout, Read, Write};
 
 pub fn confirm(prompt: String) -> bool {
     let mut stdout = stdout();
-    write!(&mut stdout, "{prompt} ? (y/n) ").unwrap_or_default();
+    stdout.write_all(prompt.as_bytes()).expect("Prompt failure");
     stdout.flush().expect("Prompt failure");
 
     stdin()

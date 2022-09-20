@@ -42,6 +42,7 @@ pub fn restore() -> Result<()> {
     // | conceal restore selected trash
     let mut skim = Command::new("sk")
         .arg("-m")
+        .arg("--no-sort")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()?;
@@ -69,6 +70,7 @@ pub fn restore() -> Result<()> {
                 .parse()
                 .unwrap() // Never fail
         })
+        .rev() // The selected items is inverse by the index, rearrange them.
         .collect();
 
     // Reserve the selected items in `items`.
@@ -90,7 +92,7 @@ pub fn restore() -> Result<()> {
             format!("{src}\n")
         })
         .collect::<String>()
-        + "\nRestore";
+        + "\nRestore ? (y/n) ";
 
     Ok(match confirm(prompt) {
         true => restore_all(items)?,

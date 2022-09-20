@@ -6,7 +6,7 @@ use trash::os_limited::{list, purge_all};
 pub fn empty() -> Result<()> {
     let trash_bin = env::var("HOME")? + "/.local/share/Trash";
 
-    Ok(match confirm(format!("Empty {trash_bin}")) {
+    Ok(match confirm(format!("Empty {trash_bin} ? (y/n) ")) {
         true => purge_all(list()?)?,
         false => (),
     })
