@@ -40,6 +40,14 @@ $ paru -S conceal
 
 
 
+## Unpredictable behavior
+
+**conceal** would **panic** when **restoring** or **deleting** a broken symlink because of the implementation of **trash-rs**.
+
+**conceal** only do the basic checks, which happen before the restoring or emptying process. If a symlink break during the process, **conceal** would panic inevitably.
+
+
+
 ## License
 
 The MIT License ([MIT](https://opensource.org/licenses/MIT))
