@@ -1,5 +1,5 @@
-use crate::utils::confirm;
-use anyhow::{Context, Result};
+use crate::utils::{confirm, valid_part};
+use anyhow::{anyhow, Context, Result};
 use chrono::{Local, TimeZone};
 use std::{
     env,
@@ -42,10 +42,10 @@ pub fn restore() -> Result<()> {
     // | conceal restore selected trash
     let mut skim = Command::new("sk")
         .arg("-m")
-        .arg("--no-sort")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
-        .spawn()?;
+        .spawn()
+        .map_err(|_| anyhow!("`skim` not found"))?;
 
     skim.stdin
         .as_mut()
@@ -94,8 +94,21 @@ pub fn restore() -> Result<()> {
         .collect::<String>()
         + "\nRestore ? (y/n) ";
 
-    Ok(match confirm(prompt) {
-        true => restore_all(items)?,
-        false => (),
-    })
+    if confirm(prompt) {
+        use trash::Error::*;
+
+        restore_all(valid_part(items)).map_err(|e| match e {
+            // Before removal on the filesystem
+            RestoreTwins { path, .. } => {
+                anyhow!("Restoring multiple items to {path:?} is not allowed")
+            }
+
+            // During removal on the filesystem
+            RestoreCollision { path, .. } => anyhow!("{path:?} has already existed"),
+
+            _ => unreachable!(),
+        })?;
+    }
+
+    Ok(())
 }
