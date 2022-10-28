@@ -16,6 +16,7 @@ pub fn restore() -> Result<()> {
         .into_iter()
         .filter(|item| item.original_parent.starts_with(&pwd))
         .collect();
+    let width = (items.len() as f64).log10().ceil() as usize;
 
     items.sort_by_key(|item| item.time_deleted);
 
@@ -32,16 +33,20 @@ pub fn restore() -> Result<()> {
             let time = Local.timestamp(item.time_deleted, 0);
             let time = time.format("%Y-%m-%d %H:%M:%S");
 
-            format!("{i} {time} {src}")
+            format!(
+                "\x1b[32;1m{i:>width$}\x1b[0m \
+                 \x1b[94m{time}\x1b[0m \
+                {src}"
+            )
         })
         .collect::<Vec<_>>()
         .join("\n"); // Tail '\n' is forbidden.
 
     // conceal list current directory trash
-    // | sk --multi
+    // | sk --multi --ansi
     // | conceal restore selected trash
     let mut skim = Command::new("sk")
-        .arg("-m")
+        .args(["-m", "--ansi"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
