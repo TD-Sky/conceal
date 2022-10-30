@@ -1,11 +1,13 @@
+#[path ="src/cli.rs"]
+mod cli;
+
+use self::cli::Cli;
 use clap::CommandFactory;
 use clap_complete::{
     generate_to,
     Shell::{Bash, Fish},
 };
 use std::io::Result;
-
-include!("src/cli.rs");
 
 fn main() -> Result<()> {
     let cmd = &mut Cli::command();
