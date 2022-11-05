@@ -24,3 +24,7 @@ clap_complete = "4.0.3"
 [[bin]]
 path = "src/main.rs"
 name = "cnc"
+
+[profile.release]
+lto = true
+debug = false
