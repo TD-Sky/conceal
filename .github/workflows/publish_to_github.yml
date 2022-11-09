@@ -1,0 +1,51 @@
+name: Publish to Github
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  publish:
+    name: Create Github Release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - x86_64-unknown-linux-gnu
+        include:
+            - os: ubuntu-latest
+              name: Linux
+              target: x86_64-unknown-linux-gnu
+              artifact_name: target/x86_64-unknown-linux-gnu/release/cnc
+              release_name: conceal-linux-x86_64
+              cross: false
+              strip: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Bootstrap
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Package Artifacts
+        run: |
+          mkdir ${{ matrix.release_name }}
+          cp ${{ matrix.artifact_name }} -t ${{ matrix.release_name }}
+          cp completions/cnc.* -t ${{ matrix.release_name }}
+          tar -zcvf ${{ matrix.release_name }}.tar.gz -C ${{ matrix.release_name }} .
+          sha256sum ${{ matrix.release_name }}.tar.gz
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ matrix.release_name }}.tar.gz
