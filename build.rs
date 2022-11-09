@@ -13,10 +13,10 @@ use std::io::Result;
 fn main() -> Result<()> {
     let cmd = &mut Cli::command();
     let name = "cnc";
-    let dir = "complete";
+    let dir = "completions";
 
     // Don't use clap's support for zsh.
-    // TODO: zsh completions should be written manually in `complete/_cnc`
+    // TODO: zsh completion should be written manually
     generate_to(Bash, cmd, name, dir)?;
     generate_to(Fish, cmd, name, dir)?;
     generate_to(Nushell, cmd, name, dir)?;
