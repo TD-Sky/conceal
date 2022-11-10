@@ -15,7 +15,7 @@ fn main() -> Result<()> {
 
     let cli = Cli::parse();
 
-    let command = cli.command.unwrap_or_else(|| Put(cli.put_args));
+    let command = cli.command.unwrap_or(Put(cli.put_args));
 
     match command {
         Put(PutArgs { items }) => put(items),

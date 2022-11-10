@@ -4,6 +4,7 @@ use chrono::{Local, TimeZone};
 use std::{
     env,
     io::Write,
+    num::ParseIntError,
     process::{Command, Stdio},
 };
 use trash::os_limited::{list, restore_all};
@@ -60,30 +61,30 @@ pub fn restore() -> Result<()> {
     let selected = String::from_utf8(skim.wait_with_output()?.stdout)?;
 
     // Select nothing,
-    if selected == "" {
+    if selected.is_empty() {
         // Keep silent.
         return Ok(());
     }
 
-    let selected: Vec<usize> = selected
+    let selected = selected
         .trim_end() // Tail '\n' is forbidden for `split` here.
         .split('\n')
         .map(|item| {
-            item.splitn(2, ' ')
+            // There're white spaces at the left side of index
+            // because of right aligned.
+            item.trim_start()
+                .split(' ')
                 .next()
-                .unwrap() // Never fail
+                .expect("Fail to split out the index")
                 .parse()
-                .unwrap() // Never fail
         })
         .rev() // The selected items is inverse by the index, rearrange them.
-        .collect();
+        .collect::<Result<Vec<usize>, ParseIntError>>()?;
 
     // Reserve the selected items in `items`.
     let len = selected.len();
-    let mut low = 0;
-    for high in selected {
+    for (low, high) in selected.into_iter().enumerate() {
         items.swap(low, high);
-        low += 1;
     }
     items.truncate(len);
 

@@ -9,7 +9,7 @@ pub fn put(items: Vec<PathBuf>) -> Result<()> {
         bail!("Please specify the files to trash");
     }
 
-    Ok(delete_all(items).map_err(|e| match e {
+    delete_all(items).map_err(|e| match e {
         Unknown { description } => anyhow!("{description}"),
 
         TargetedRoot => anyhow!("You cannot remove root directory!"),
@@ -17,5 +17,5 @@ pub fn put(items: Vec<PathBuf>) -> Result<()> {
         CouldNotAccess { .. } => anyhow!("Current working directory lost"),
 
         _ => unreachable!(),
-    })?)
+    })
 }

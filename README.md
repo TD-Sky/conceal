@@ -30,6 +30,12 @@ $ cargo install conceal
 $ paru -S conceal
 ```
 
+or binary package:
+
+```bash
+$ paru -S conceal-bin
+```
+
 
 
 ## Usage
