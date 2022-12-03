@@ -14,7 +14,7 @@ pub fn list() -> Result<()> {
             let src = item.original_path();
             let src = src.to_string_lossy();
 
-            let time = Local.timestamp(item.time_deleted, 0);
+            let time = Local.timestamp_opt(item.time_deleted, 0).unwrap();
             let time = time.format("%Y-%m-%d %H:%M:%S");
 
             format!("{time} {src}\n")

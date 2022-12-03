@@ -12,14 +12,14 @@ keywords = ["trash", "remove", "recycle", "bin", "freedesktop"]
 license = "MIT"
 
 [dependencies]
-anyhow = "1.0.65"
-chrono = "0.4.22"
-clap = { version = "4.0.22", features = ["derive"] }
+anyhow = "1.0.66"
+chrono = "0.4.23"
+clap = { version = "4.0.29", features = ["derive"] }
 trash = "2.1.5"
 
 [build-dependencies]
-clap = { version = "4.0.22", features = ["derive"] }
-clap_complete = "4.0.5"
+clap = { version = "4.0.29", features = ["derive"] }
+clap_complete = "4.0.6"
 clap_complete_nushell = "0.1.8"
 
 [[bin]]
@@ -28,4 +28,4 @@ name = "cnc"
 
 [profile.release]
 lto = true
-debug = false
+strip = true
