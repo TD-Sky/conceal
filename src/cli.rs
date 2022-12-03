@@ -2,12 +2,12 @@ use clap::{Args, Parser, Subcommand};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[clap(name = "cnc", version, about)]
+#[command(name = "cnc", version, about)]
 pub struct Cli {
-    #[clap(subcommand)]
+    #[command(subcommand)]
     pub command: Option<SubCommand>,
 
-    #[clap(flatten)]
+    #[command(flatten)]
     pub put_args: PutArgs,
 }
 

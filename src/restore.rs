@@ -27,11 +27,11 @@ pub fn restore() -> Result<()> {
         .rev() // For getting closest to the files discarded recently.
         .map(|(i, item)| {
             let src = item.original_path();
-            // Having filter first,
+            // Having filtered before,
             // the `unwrap` would never fail.
             let src = src.strip_prefix(&pwd).unwrap().to_string_lossy();
 
-            let time = Local.timestamp(item.time_deleted, 0);
+            let time = Local.timestamp_opt(item.time_deleted, 0).unwrap();
             let time = time.format("%Y-%m-%d %H:%M:%S");
 
             format!(
