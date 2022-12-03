@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2021"
 description = "A trash collector."
