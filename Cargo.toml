@@ -13,8 +13,8 @@ license = "MIT"
 
 [dependencies]
 anyhow = "1.0.66"
-chrono = "0.4.23"
 clap = { version = "4.0.29", features = ["derive"] }
+time = { version = "0.3.20", features = ["local-offset", "formatting", "macros"] }
 trash = "2.1.5"
 
 [build-dependencies]

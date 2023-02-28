@@ -1,3 +1,5 @@
+pub mod time;
+
 use std::io::{stdin, stdout, Read, Write};
 use trash::TrashItem;
 

@@ -1,8 +1,9 @@
+use crate::utils::time::{LocalDateTimeHelper, UnixTimestampToString};
 use anyhow::Result;
-use chrono::{Local, TimeZone};
 use trash::os_limited::list as trash_list;
 
 pub fn list() -> Result<()> {
+    let local_date_time_helper = LocalDateTimeHelper::default();
     let mut items = trash_list()?;
 
     // From old to new along the top to the bottom.
@@ -13,13 +14,13 @@ pub fn list() -> Result<()> {
         .map(|item| {
             let src = item.original_path();
             let src = src.to_string_lossy();
-
-            let time = Local.timestamp_opt(item.time_deleted, 0).unwrap();
-            let time = time.format("%Y-%m-%d %H:%M:%S");
+            let time = item.time_deleted.to_string(&local_date_time_helper);
 
             format!("{time} {src}\n")
         })
         .collect();
 
-    Ok(print!("{list}"))
+    print!("{list}");
+
+    Ok(())
 }
