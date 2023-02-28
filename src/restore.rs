@@ -1,15 +1,19 @@
-use crate::utils::{confirm, valid_part};
-use anyhow::{anyhow, Context, Result};
-use chrono::{Local, TimeZone};
-use std::{
-    env,
-    io::Write,
-    num::ParseIntError,
-    process::{Command, Stdio},
-};
-use trash::os_limited::{list, restore_all};
+use crate::utils::confirm;
+use crate::utils::time::{LocalDateTimeHelper, UnixTimestampToString};
+use crate::utils::valid_part;
+use anyhow::anyhow;
+use anyhow::Context;
+use anyhow::Result;
+use std::env;
+use std::io::Write;
+use std::num::ParseIntError;
+use std::process::{Command, Stdio};
+use trash::os_limited::list;
+use trash::os_limited::restore_all;
 
 pub fn restore() -> Result<()> {
+    let local_date_time_helper = LocalDateTimeHelper::default();
+
     // Users only can restore files discarded under the current directory.
     let pwd = env::current_dir()?;
 
@@ -30,9 +34,7 @@ pub fn restore() -> Result<()> {
             // Having filtered before,
             // the `unwrap` would never fail.
             let src = src.strip_prefix(&pwd).unwrap().to_string_lossy();
-
-            let time = Local.timestamp_opt(item.time_deleted, 0).unwrap();
-            let time = time.format("%Y-%m-%d %H:%M:%S");
+            let time = item.time_deleted.to_string(&local_date_time_helper);
 
             format!(
                 "\x1b[32;1m{i:>width$}\x1b[0m \
