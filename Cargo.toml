@@ -13,14 +13,14 @@ license = "MIT"
 
 [dependencies]
 anyhow = "1.0.66"
-clap = { version = "4.0.29", features = ["derive"] }
+clap = { version = "4.1.7", features = ["derive"] }
 time = { version = "0.3.20", features = ["local-offset", "formatting", "macros"] }
 trash = "2.1.5"
 
 [build-dependencies]
-clap = { version = "4.0.29", features = ["derive"] }
-clap_complete = "4.0.6"
-clap_complete_nushell = "0.1.8"
+clap = { version = "4.1.7", features = ["derive"] }
+clap_complete = "4.1.4"
+clap_complete_nushell = "0.1.10"
 
 [[bin]]
 path = "src/main.rs"

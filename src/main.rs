@@ -1,29 +1,24 @@
 mod cli;
-mod empty;
-mod list;
-mod put;
-mod restore;
+mod handlers;
 mod utils;
 
-use self::{cli::*, empty::empty, list::list, put::put, restore::restore};
+use self::cli::*;
 use anyhow::Result;
 use clap::Parser;
 use cli::Cli;
 
 fn main() -> Result<()> {
-    use SubCommand::*;
-
     let cli = Cli::parse();
-
     let command = cli.command.unwrap_or(Put(cli.put_args));
 
+    use SubCommand::*;
     match command {
-        Put(PutArgs { items }) => put(items),
+        Put(PutArgs { items }) => handlers::put(&items),
 
-        List => list(),
+        List => handlers::list(),
 
-        Restore => restore(),
+        Restore => handlers::restore(),
 
-        Empty => empty(),
+        Empty => handlers::empty(),
     }
 }
