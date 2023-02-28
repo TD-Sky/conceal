@@ -1,6 +1,8 @@
 pub mod time;
 
-use std::io::{stdin, stdout, Read, Write};
+use std::io::Read;
+use std::io::Write;
+use std::io::{stdin, stdout};
 use trash::TrashItem;
 
 pub fn confirm(prompt: String) -> bool {

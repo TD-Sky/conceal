@@ -3,10 +3,8 @@ mod cli;
 
 use self::cli::Cli;
 use clap::CommandFactory;
-use clap_complete::{
-    generate_to,
-    Shell::{Bash, Fish},
-};
+use clap_complete::generate_to;
+use clap_complete::Shell::{Bash, Fish};
 use clap_complete_nushell::Nushell;
 use std::io::Result;
 
