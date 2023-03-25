@@ -1,30 +1,30 @@
 [package]
 name = "conceal"
-version = "0.1.5"
+version = "0.2.0"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2021"
-description = "A trash collector."
+description = "Command line recycle bin"
 documentation = "https://github.com/TD-Sky/conceal"
 repository = "https://github.com/TD-Sky/conceal"
 readme = "README.md"
 categories = ["command-line-utilities"]
-keywords = ["trash", "remove", "recycle", "bin", "freedesktop"]
+keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
 
 [dependencies]
 anyhow = "1.0.66"
 clap = { version = "4.1.7", features = ["derive"] }
-time = { version = "0.3.20", features = ["local-offset", "formatting", "macros"] }
-trash = "2.1.5"
+time = { version = "0.3.20", features = [
+  "local-offset",
+  "formatting",
+  "macros",
+] }
+trash = "3.0.1"
 
 [build-dependencies]
 clap = { version = "4.1.7", features = ["derive"] }
 clap_complete = "4.1.4"
 clap_complete_nushell = "0.1.10"
-
-[[bin]]
-path = "src/main.rs"
-name = "cnc"
 
 [profile.release]
 lto = true
