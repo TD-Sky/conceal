@@ -1,4 +1,4 @@
-_cnc() {
+_conceal() {
     local i cur prev opts cmd
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -10,37 +10,31 @@ _cnc() {
     do
         case "${cmd},${i}" in
             ",$1")
-                cmd="cnc"
+                cmd="conceal"
                 ;;
-            cnc,empty)
-                cmd="cnc__empty"
+            conceal,clean)
+                cmd="conceal__clean"
                 ;;
-            cnc,help)
-                cmd="cnc__help"
+            conceal,help)
+                cmd="conceal__help"
                 ;;
-            cnc,list)
-                cmd="cnc__list"
+            conceal,list)
+                cmd="conceal__list"
                 ;;
-            cnc,put)
-                cmd="cnc__put"
+            conceal,restore)
+                cmd="conceal__restore"
                 ;;
-            cnc,restore)
-                cmd="cnc__restore"
+            conceal__help,clean)
+                cmd="conceal__help__clean"
                 ;;
-            cnc__help,empty)
-                cmd="cnc__help__empty"
+            conceal__help,help)
+                cmd="conceal__help__help"
                 ;;
-            cnc__help,help)
-                cmd="cnc__help__help"
+            conceal__help,list)
+                cmd="conceal__help__list"
                 ;;
-            cnc__help,list)
-                cmd="cnc__help__list"
-                ;;
-            cnc__help,put)
-                cmd="cnc__help__put"
-                ;;
-            cnc__help,restore)
-                cmd="cnc__help__restore"
+            conceal__help,restore)
+                cmd="conceal__help__restore"
                 ;;
             *)
                 ;;
@@ -48,8 +42,8 @@ _cnc() {
     done
 
     case "${cmd}" in
-        cnc)
-            opts="-h -V --help --version [ITEMS]... put list restore empty help"
+        conceal)
+            opts="-h -V --help --version list restore clean help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -62,7 +56,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__empty)
+        conceal__clean)
             opts="-h --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -76,8 +70,8 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help)
-            opts="put list restore empty help"
+        conceal__help)
+            opts="list restore clean help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -90,7 +84,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help__empty)
+        conceal__help__clean)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -104,7 +98,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help__help)
+        conceal__help__help)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -118,7 +112,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help__list)
+        conceal__help__list)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -132,7 +126,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help__put)
+        conceal__help__restore)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -146,21 +140,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__help__restore)
-            opts=""
-            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
-                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
-                return 0
-            fi
-            case "${prev}" in
-                *)
-                    COMPREPLY=()
-                    ;;
-            esac
-            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
-            return 0
-            ;;
-        cnc__list)
+        conceal__list)
             opts="-h --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -174,21 +154,7 @@ _cnc() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        cnc__put)
-            opts="-h --help [ITEMS]..."
-            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
-                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
-                return 0
-            fi
-            case "${prev}" in
-                *)
-                    COMPREPLY=()
-                    ;;
-            esac
-            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
-            return 0
-            ;;
-        cnc__restore)
+        conceal__restore)
             opts="-h --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -205,4 +171,4 @@ _cnc() {
     esac
 }
 
-complete -F _cnc -o bashdefault -o default cnc
+complete -F _conceal -o bashdefault -o default conceal

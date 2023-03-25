@@ -1,5 +1,5 @@
-mod empty;
-pub use self::empty::empty;
+mod clean;
+pub use self::clean::clean;
 
 mod list;
 pub use self::list::list;

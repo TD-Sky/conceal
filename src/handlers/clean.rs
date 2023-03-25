@@ -6,7 +6,7 @@ use std::env;
 use trash::os_limited::list;
 use trash::os_limited::purge_all;
 
-pub fn empty() -> Result<()> {
+pub fn clean() -> Result<()> {
     let trash_bin = env::var("HOME")? + "/.local/share/Trash";
 
     use trash::Error::Unknown;
