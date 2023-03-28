@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2021"
 description = "Command line recycle bin"
@@ -12,14 +12,14 @@ keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
 
 [dependencies]
-anyhow = "1.0.66"
 clap = { version = "4.1.7", features = ["derive"] }
+thiserror = "1.0.40"
 time = { version = "0.3.20", features = [
   "local-offset",
   "formatting",
   "macros",
 ] }
-trash = "3.0.1"
+trash = { git = "https://github.com/TD-Sky/trash-rs", branch = "conceal" }
 
 [build-dependencies]
 clap = { version = "4.1.7", features = ["derive"] }

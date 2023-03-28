@@ -1,6 +1,4 @@
-use anyhow::anyhow;
-use anyhow::bail;
-use anyhow::Result;
+use crate::error::Result;
 use std::path::Path;
 use trash::delete_all;
 
@@ -8,17 +6,10 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
     // Function `delete_all` wouldn't fail even if no file is specified.
     // But this doesn't meet our expectation.
     if items.is_empty() {
-        bail!("Please specify the files to trash");
+        return Err("Please specify the files to trash".into());
     }
 
-    use trash::Error::*;
-    delete_all(items).map_err(|e| match e {
-        Unknown { description } => anyhow!("{description}"),
+    delete_all(items)?;
 
-        TargetedRoot => anyhow!("You cannot remove root directory!"),
-
-        CouldNotAccess { .. } => anyhow!("Current working directory lost"),
-
-        _ => unreachable!(),
-    })
+    Ok(())
 }
