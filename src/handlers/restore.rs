@@ -1,18 +1,14 @@
+use crate::error::{Error, Result};
 use crate::utils::confirm;
-use crate::utils::time::{LocalDateTimeHelper, UnixTimestampToString};
-use crate::utils::valid_part;
-use anyhow::anyhow;
-use anyhow::Context;
-use anyhow::Result;
+use crate::utils::time::{LocaleDateTime, TimestampDisplay};
 use std::env;
 use std::io::Write;
-use std::num::ParseIntError;
 use std::process::{Command, Stdio};
 use trash::os_limited::list;
 use trash::os_limited::restore_all;
 
 pub fn restore() -> Result<()> {
-    let local_date_time_helper = LocalDateTimeHelper::default();
+    let helper = LocaleDateTime::try_new()?;
 
     // Users only can restore files discarded under the current directory.
     let pwd = env::current_dir()?;
@@ -32,9 +28,11 @@ pub fn restore() -> Result<()> {
         .map(|(i, item)| {
             let src = item.original_path();
             // Having filtered before,
-            // the `unwrap` would never fail.
-            let src = src.strip_prefix(&pwd).unwrap().to_string_lossy();
-            let time = item.time_deleted.to_string(&local_date_time_helper);
+            let src = src
+                .strip_prefix(&pwd)
+                .unwrap() // will definitely succeed
+                .to_string_lossy();
+            let time = item.time_deleted.to_string(&helper);
 
             format!(
                 "\x1b[32;1m{i:>width$}\x1b[0m \
@@ -42,7 +40,7 @@ pub fn restore() -> Result<()> {
                 {src}"
             )
         })
-        .collect::<Vec<_>>()
+        .collect::<Vec<String>>()
         .join("\n"); // Tail '\n' is forbidden.
 
     // conceal list current directory trash
@@ -53,14 +51,15 @@ pub fn restore() -> Result<()> {
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
-        .map_err(|_| anyhow!("`skim` not found"))?;
+        .map_err(|_| Error::SkimNotFound)?;
 
     skim.stdin
         .as_mut()
-        .context("Unable to acquire stdin of skim")?
+        .ok_or(Error::SkimStdin)?
         .write_all(options.as_bytes())?;
 
-    let selected = String::from_utf8(skim.wait_with_output()?.stdout)?;
+    // Linux shouldn't have UTF-8 problems
+    let selected = String::from_utf8(skim.wait_with_output()?.stdout).unwrap();
 
     // Select nothing,
     if selected.is_empty() {
@@ -68,20 +67,19 @@ pub fn restore() -> Result<()> {
         return Ok(());
     }
 
-    let selected = selected
+    let selected: Vec<usize> = selected
         .trim_end() // Tail '\n' is forbidden for `split` here.
         .split('\n')
         .map(|item| {
             // There're white spaces at the left side of index
             // because of right aligned.
             item.trim_start()
-                .split(' ')
-                .next()
-                .expect("Fail to split out the index")
-                .parse()
+                .split_once(' ') // white space between index and date time
+                .and_then(|(index, _)| index.parse().ok())
+                .unwrap() // will definitely succeed
         })
         .rev() // The selected items is inverse by the index, rearrange them.
-        .collect::<Result<Vec<usize>, ParseIntError>>()?;
+        .collect();
 
     // Reserve the selected items in `items`.
     let len = selected.len();
@@ -102,20 +100,8 @@ pub fn restore() -> Result<()> {
         .collect::<String>()
         + "\nRestore ? (y/n) ";
 
-    if confirm(prompt) {
-        use trash::Error::*;
-
-        restore_all(valid_part(items)).map_err(|e| match e {
-            // Before removal on the filesystem
-            RestoreTwins { path, .. } => {
-                anyhow!("Restoring multiple items to {path:?} is not allowed")
-            }
-
-            // During removal on the filesystem
-            RestoreCollision { path, .. } => anyhow!("{path:?} has already existed"),
-
-            _ => unreachable!(),
-        })?;
+    if confirm(&prompt) {
+        restore_all(&items)?;
     }
 
     Ok(())

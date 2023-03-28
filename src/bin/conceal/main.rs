@@ -4,15 +4,21 @@ use self::cli::SubCommand;
 
 use clap::Parser;
 use conceal::handlers;
-use anyhow::Result;
+use std::io::stderr;
+use std::process;
 
-fn main() -> Result<()> {
+fn main() {
     let cli = Cli::parse();
 
     use SubCommand::*;
-    match cli.command {
+    let result = match cli.command {
         List => handlers::list(),
         Restore => handlers::restore(),
         Clean => handlers::clean(),
+    };
+
+    if let Err(e) = result {
+        e.handler("conceal", &mut stderr().lock());
+        process::exit(1);
     }
 }
