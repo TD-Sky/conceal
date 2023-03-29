@@ -43,9 +43,9 @@ jobs:
           ARTIFACTS_DIR: target/${{ matrix.target }}/release
         run: |
           mkdir $RELEASE_NAME
-          cp $ARTIFACTS_DIR/cnc -t $RELEASE_NAME
-          cp $ARTIFACTS_DIR/conceal -t $RELEASE_NAME
+          cp $ARTIFACTS_DIR/cnc $ARTIFACTS_DIR/conceal -t $RELEASE_NAME
           cp -r completions -t $RELEASE_NAME
+          cp README.md LICENSE -t $RELEASE_NAME
           tar -zcvf $RELEASE_NAME.${{ matrix.archive }} -C $RELEASE_NAME .
 
       - name: Release
