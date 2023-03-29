@@ -1,6 +1,7 @@
 use crate::error::{Error, Result};
 use crate::utils::confirm;
 use crate::utils::time::{LocaleDateTime, TimestampDisplay};
+use owo_colors::OwoColorize;
 use std::env;
 use std::io::Write;
 use std::process::{Command, Stdio};
@@ -35,9 +36,9 @@ pub fn restore() -> Result<()> {
             let time = item.time_deleted.to_string(&helper);
 
             format!(
-                "\x1b[32;1m{i:>width$}\x1b[0m \
-                 \x1b[94m{time}\x1b[0m \
-                {src}"
+                "{i:<width$} {time} {src}",
+                i = i.bright_purple().bold(),
+                time = time.bright_yellow(),
             )
         })
         .collect::<Vec<String>>()
