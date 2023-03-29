@@ -11,10 +11,15 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum SubCommand {
-    /// List all the discarded entities
-    List,
+    /// List the discarded entities
+    List {
+        /// All discarded entities.
+        /// If not, only list the entities discarded from current directory
+        #[arg(long, short)]
+        all: bool,
+    },
 
-    /// Restore entities discarded under the current directory
+    /// Restore entities discarded from the current directory
     Restore,
 
     /// Delete all the discarded entities permanently

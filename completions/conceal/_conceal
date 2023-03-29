@@ -30,6 +30,8 @@ _conceal() {
         case $line[1] in
             (list)
 _arguments "${_arguments_options[@]}" \
+'-a[All discarded entities. If not, only list the entities discarded from current directory]' \
+'--all[All discarded entities. If not, only list the entities discarded from current directory]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
@@ -86,8 +88,8 @@ esac
 (( $+functions[_conceal_commands] )) ||
 _conceal_commands() {
     local commands; commands=(
-'list:List all the discarded entities' \
-'restore:Restore entities discarded under the current directory' \
+'list:List the discarded entities' \
+'restore:Restore entities discarded from the current directory' \
 'clean:Delete all the discarded entities permanently' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -106,8 +108,8 @@ _conceal__help__clean_commands() {
 (( $+functions[_conceal__help_commands] )) ||
 _conceal__help_commands() {
     local commands; commands=(
-'list:List all the discarded entities' \
-'restore:Restore entities discarded under the current directory' \
+'list:List the discarded entities' \
+'restore:Restore entities discarded from the current directory' \
 'clean:Delete all the discarded entities permanently' \
 'help:Print this message or the help of the given subcommand(s)' \
     )

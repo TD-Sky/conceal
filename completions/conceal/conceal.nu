@@ -6,12 +6,13 @@ module completions {
     --version(-V)             # Print version
   ]
 
-  # List all the discarded entities
+  # List the discarded entities
   export extern "conceal list" [
+    --all(-a)                 # All discarded entities. If not, only list the entities discarded from current directory
     --help(-h)                # Print help
   ]
 
-  # Restore entities discarded under the current directory
+  # Restore entities discarded from the current directory
   export extern "conceal restore" [
     --help(-h)                # Print help
   ]
@@ -25,11 +26,11 @@ module completions {
   export extern "conceal help" [
   ]
 
-  # List all the discarded entities
+  # List the discarded entities
   export extern "conceal help list" [
   ]
 
-  # Restore entities discarded under the current directory
+  # Restore entities discarded from the current directory
   export extern "conceal help restore" [
   ]
 

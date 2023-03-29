@@ -141,7 +141,7 @@ _conceal() {
             return 0
             ;;
         conceal__list)
-            opts="-h --help"
+            opts="-a -h --all --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
