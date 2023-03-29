@@ -18,10 +18,10 @@ You can use **conceal** to:
 
 ### Cargo
 
-**First of all**, install the binary [skim](https://github.com/lotabout/skim#installation).
+**First of all**, install [skim](https://github.com/lotabout/skim#installation).
 
 ```bash
-$ cargo install conceal
+$ cargo install --git 'https://github.com/TD-Sky/conceal'
 ```
 
 ### AUR
@@ -40,17 +40,13 @@ $ paru -S conceal-bin
 
 ## Usage
 
-[![demo](https://asciinema.org/a/522271.svg)](https://asciinema.org/a/522271?t=7)
+There are two binaries: `cnc` and `conceal`.
+
+`cnc` is to put files into recycle bin; `conceal` is to operate the recycle bin.
+
+[![demo](https://asciinema.org/a/571859.svg)](https://asciinema.org/a/571859?speed=2)
 
 **`Tab` is the multi-selection and multi-cancel key !!**
-
-
-
-## Unpredictable behavior
-
-**conceal** would **panic** when **restoring** or **deleting** a broken symlink because of the implementation of **trash-rs**.
-
-**conceal** only do the basic checks, which happen before the restoring or emptying process. If a symlink break during the process, **conceal** would panic inevitably.
 
 
 
