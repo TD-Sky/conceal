@@ -13,7 +13,7 @@ fn main() {
     use SubCommand::*;
     let result = match cli.command {
         List { all } => handlers::list(all),
-        Restore => handlers::restore(),
+        Restore { finder } => handlers::restore(finder.cmd()),
         Clean => handlers::clean(),
     };
 

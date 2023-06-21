@@ -1,6 +1,7 @@
 #[path = "src/bin/cnc/cli.rs"]
 mod cnc;
 
+#[allow(dead_code)]
 #[path = "src/bin/conceal/cli.rs"]
 mod conceal;
 
@@ -19,7 +20,7 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
-fn generate_completions(cmd: &mut Command, name: &'static str) -> io::Result<()> {
+fn generate_completions(cmd: &mut Command, name: &str) -> io::Result<()> {
     let dir = &PathBuf::from("completions").join(name);
     fs::create_dir_all(dir)?;
 

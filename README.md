@@ -18,7 +18,14 @@ You can use **conceal** to:
 
 ### Cargo
 
-**First of all**, install [skim](https://github.com/lotabout/skim#installation).
+**conceal** supports [skim](https://github.com/lotabout/skim) and [fzf](https://github.com/junegunn/fzf)
+as finder. You can choose either one with the environment variable
+`CONCEAL_FINDER` (value: `skim` | `fzf`). The default one is `skim`.
+
+Also, you can override the `finder` argument when calling command.
+Refer to `conceal restore -h` for more information.
+
+You need to install finder before using **conceal**.
 
 ```bash
 $ cargo install --git 'https://github.com/TD-Sky/conceal'
@@ -47,9 +54,3 @@ There are two binaries: `cnc` and `conceal`.
 [![demo](https://asciinema.org/a/571859.svg)](https://asciinema.org/a/571859?speed=2)
 
 **`Tab` is the multi-selection and multi-cancel key !!**
-
-
-
-## License
-
-The MIT License ([MIT](https://opensource.org/licenses/MIT))
