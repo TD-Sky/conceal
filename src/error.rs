@@ -15,11 +15,8 @@ pub enum Error {
     #[error(transparent)]
     Time(#[from] time::error::IndeterminateOffset),
 
-    #[error("`skim` isn't found")]
-    SkimNotFound,
-
-    #[error("unable to acquire stdin of `skim`")]
-    SkimStdin,
+    #[error("`{0}` not found")]
+    FinderNotFound(&'static str),
 
     #[error("{0}")]
     Msg(&'static str),

@@ -1,14 +1,16 @@
-use crate::error::{Error, Result};
-use crate::utils::confirm;
-use crate::utils::time::{LocaleDateTime, TimestampDisplay};
-use owo_colors::OwoColorize;
 use std::env;
 use std::io::Write;
 use std::process::{Command, Stdio};
+
+use owo_colors::OwoColorize;
 use trash::os_limited::list;
 use trash::os_limited::restore_all;
 
-pub fn restore() -> Result<()> {
+use crate::error::{Error, Result};
+use crate::utils::confirm;
+use crate::utils::time::{LocaleDateTime, TimestampDisplay};
+
+pub fn restore(finder: &'static str) -> Result<()> {
     let helper = LocaleDateTime::try_new()?;
 
     // Users only can restore files discarded under the current directory.
@@ -45,22 +47,23 @@ pub fn restore() -> Result<()> {
         .join("\n"); // Tail '\n' is forbidden.
 
     // conceal list current directory trash
-    // | sk --multi --ansi
+    // | <finder> --multi --ansi
     // | conceal restore selected trash
-    let mut skim = Command::new("sk")
+    let mut finder = Command::new(finder)
         .args(["-m", "--ansi"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
-        .map_err(|_| Error::SkimNotFound)?;
+        .map_err(|_| Error::FinderNotFound(finder))?;
 
-    skim.stdin
+    finder
+        .stdin
         .as_mut()
-        .ok_or(Error::SkimStdin)?
+        .unwrap()
         .write_all(options.as_bytes())?;
 
     // Linux shouldn't have UTF-8 problems
-    let selected = String::from_utf8(skim.wait_with_output()?.stdout).unwrap();
+    let selected = String::from_utf8(finder.wait_with_output()?.stdout).unwrap();
 
     // Select nothing,
     if selected.is_empty() {

@@ -1,5 +1,8 @@
+use std::fmt;
+
 use clap::Parser;
 use clap::Subcommand;
+use clap::ValueEnum;
 
 /// Operate the recycle bin
 #[derive(Parser)]
@@ -20,8 +23,38 @@ pub enum SubCommand {
     },
 
     /// Restore entities discarded from the current directory
-    Restore,
+    Restore {
+        #[arg(long, default_value_t, env = "CONCEAL_FINDER")]
+        finder: Finder,
+    },
 
     /// Delete all the discarded entities permanently
     Clean,
+}
+
+#[derive(Default, ValueEnum, Clone, Copy)]
+pub enum Finder {
+    #[default]
+    Skim,
+    Fzf,
+}
+
+impl fmt::Display for Finder {
+    #[inline]
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(match self {
+            Self::Skim => "skim",
+            Self::Fzf => "fzf",
+        })
+    }
+}
+
+impl Finder {
+    #[inline]
+    pub fn cmd(self) -> &'static str {
+        match self {
+            Self::Skim => "sk",
+            Self::Fzf => "fzf",
+        }
+    }
 }
