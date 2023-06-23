@@ -12,10 +12,10 @@ keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
 
 [dependencies]
-clap = { version = "4.2.0", features = ["derive", "env"] }
+clap = { version = "4.3.5", features = ["derive", "env"] }
 owo-colors = "3.5.0"
 thiserror = "1.0.40"
-time = { version = "0.3.20", features = [
+time = { version = "0.3.22", features = [
   "local-offset",
   "formatting",
   "macros",
@@ -23,9 +23,9 @@ time = { version = "0.3.20", features = [
 trash = { git = "https://github.com/TD-Sky/trash-rs", branch = "conceal" }
 
 [build-dependencies]
-clap = { version = "4.2.0", features = ["derive", "env"] }
-clap_complete = "4.2.0"
-clap_complete_nushell = "0.1.10"
+clap = { version = "4.3.5", features = ["derive", "env"] }
+clap_complete = "4.3.1"
+clap_complete_nushell = "0.1.11"
 
 [profile.release]
 lto = true
