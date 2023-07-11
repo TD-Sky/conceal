@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2023-07-11
+
+### Features
+
+- Clean for current directory by default, and clean for all with `-a` (#5)
+
 ## [0.3.3] - 2023-06-23
 
 ### Features
