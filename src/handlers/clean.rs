@@ -19,8 +19,8 @@ pub fn clean(all: bool) -> Result<()> {
 
     let mut items = list()?;
     if !all {
-        let pwd = env::current_dir()?;
-        items.retain(|it| it.original_parent == pwd);
+        let pwd = &env::current_dir()?;
+        items.retain(|it| it.original_parent.starts_with(pwd));
     }
     purge_all(&items)?;
 
