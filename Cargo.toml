@@ -13,6 +13,7 @@ license = "MIT"
 
 [dependencies]
 clap = { version = "4.3.5", features = ["derive", "env"] }
+dirs = "5.0.1"
 owo-colors = "3.5.0"
 thiserror = "1.0.40"
 time = { version = "0.3.22", features = [

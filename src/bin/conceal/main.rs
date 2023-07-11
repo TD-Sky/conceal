@@ -14,7 +14,7 @@ fn main() {
     let result = match cli.command {
         List { all } => handlers::list(all),
         Restore { finder } => handlers::restore(finder.cmd()),
-        Clean => handlers::clean(),
+        Clean { all } => handlers::clean(all),
     };
 
     if let Err(e) = result {
