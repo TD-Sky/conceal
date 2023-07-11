@@ -17,7 +17,7 @@ pub enum SubCommand {
     /// List the discarded entities
     List {
         /// All discarded entities.
-        /// If not, only list the entities discarded from current directory
+        /// If not, only list the entities discarded under current directory
         #[arg(long, short)]
         all: bool,
     },
@@ -28,8 +28,13 @@ pub enum SubCommand {
         finder: Finder,
     },
 
-    /// Delete all the discarded entities permanently
-    Clean,
+    /// Delete the discarded entities permanently
+    Clean {
+        /// All discarded entities.
+        /// If not, only clean the entities discarded under current directory
+        #[arg(long, short)]
+        all: bool,
+    },
 }
 
 #[derive(Default, ValueEnum, Clone, Copy)]
