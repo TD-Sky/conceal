@@ -1,13 +1,16 @@
 pub mod time;
 
-use std::io::Read;
-use std::io::Write;
+use std::io;
 use std::io::{stdin, stdout};
+use std::io::{Read, Write};
 
 pub fn confirm(prompt: &str) -> bool {
     let mut stdout = stdout();
-    stdout.write_all(prompt.as_bytes()).expect("Prompt failure");
-    stdout.flush().expect("Prompt failure");
+    || -> io::Result<()> {
+        stdout.write_all(prompt.as_bytes())?;
+        stdout.flush()
+    }()
+    .expect("Prompt failure");
 
     stdin()
         .bytes()

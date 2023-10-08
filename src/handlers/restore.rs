@@ -1,4 +1,5 @@
 use std::env;
+use std::fmt::Write as _;
 use std::io::Write;
 use std::process::{Command, Stdio};
 
@@ -50,7 +51,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     // | <finder> --multi --ansi
     // | conceal restore selected trash
     let mut finder = Command::new(finder)
-        .args(["-m", "--ansi"])
+        .args(["-m", "--ansi", "--cycle"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -93,16 +94,12 @@ pub fn restore(finder: &'static str) -> Result<()> {
     items.truncate(len);
 
     // Ask the users if they want to restore.
-    let prompt: String = items
-        .iter()
-        .map(|item| {
-            let src = item.original_path();
-            let src = src.to_string_lossy();
-
-            format!("{src}\n")
-        })
-        .collect::<String>()
-        + "\nRestore ? (y/n) ";
+    let prompt = items.iter().fold(String::new(), |mut s, item| {
+        let src = item.original_path();
+        let src = src.to_string_lossy();
+        let _ = writeln!(s, "{src}");
+        s
+    }) + "\nRestore ? (y/n) ";
 
     if confirm(&prompt) {
         restore_all(&items)?;

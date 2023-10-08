@@ -39,8 +39,8 @@ pub enum SubCommand {
 
 #[derive(Default, ValueEnum, Clone, Copy)]
 pub enum Finder {
-    #[default]
     Skim,
+    #[default]
     Fzf,
 }
 
