@@ -3,7 +3,7 @@ use self::cli::Cli;
 use self::cli::SubCommand;
 
 use clap::Parser;
-use conceal::handlers;
+use conceal::handler;
 use std::io::stderr;
 use std::process;
 
@@ -12,9 +12,9 @@ fn main() {
 
     use SubCommand::*;
     let result = match cli.command {
-        List { all } => handlers::list(all),
-        Restore { finder } => handlers::restore(finder.cmd()),
-        Clean { all } => handlers::clean(all),
+        List { all } => handler::list(all),
+        Restore { finder } => handler::restore(finder.cmd()),
+        Clean { all } => handler::clean(all),
     };
 
     if let Err(e) = result {

@@ -16,12 +16,8 @@ clap = { version = "4.4", features = ["derive", "env"] }
 dirs = "5.0"
 owo-colors = "3.5"
 thiserror = "1"
-time = { version = "0.3.22", features = [
-  "local-offset",
-  "formatting",
-  "macros",
-] }
 trash = { git = "https://github.com/Byron/trash-rs" }
+chrono = "0.4"
 
 [build-dependencies]
 clap = { version = "4.4", features = ["derive", "env"] }

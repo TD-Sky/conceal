@@ -4,7 +4,7 @@ use trash::os_limited::list;
 use trash::os_limited::purge_all;
 
 use crate::error::Result;
-use crate::utils::confirm;
+use crate::util::confirm;
 
 pub fn clean(all: bool) -> Result<()> {
     let recycle_bin = dirs::data_local_dir()

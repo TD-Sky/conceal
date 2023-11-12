@@ -2,7 +2,7 @@ mod cli;
 use self::cli::Cli;
 
 use clap::Parser;
-use conceal::handlers::put;
+use conceal::handler::put;
 use std::io::stderr;
 use std::process;
 

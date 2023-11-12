@@ -8,12 +8,10 @@ use trash::os_limited::list;
 use trash::os_limited::restore_all;
 
 use crate::error::{Error, Result};
-use crate::utils::confirm;
-use crate::utils::time::{LocaleDateTime, TimestampDisplay};
+use crate::util::confirm;
+use crate::util::time::{self, local_datetime};
 
 pub fn restore(finder: &'static str) -> Result<()> {
-    let helper = LocaleDateTime::try_new()?;
-
     // Users only can restore files discarded under the current directory.
     let pwd = env::current_dir()?;
 
@@ -36,7 +34,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
                 .strip_prefix(&pwd)
                 .unwrap() // will definitely succeed
                 .to_string_lossy();
-            let time = item.time_deleted.to_string(&helper);
+            let time = local_datetime(item.time_deleted).format(time::FORMAT);
 
             format!(
                 "{i:<width$} {time} {src}",

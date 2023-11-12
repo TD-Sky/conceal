@@ -12,9 +12,6 @@ pub enum Error {
     #[error(transparent)]
     Trash(#[from] trash::Error),
 
-    #[error(transparent)]
-    Time(#[from] time::error::IndeterminateOffset),
-
     #[error("`{0}` not found")]
     FinderNotFound(&'static str),
 

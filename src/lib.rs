@@ -1,6 +1,5 @@
 pub mod error;
-pub use self::error::Error;
-pub use self::error::Result;
+pub mod handler;
+mod util;
 
-pub mod handlers;
-mod utils;
+pub use self::error::{Error, Result};
