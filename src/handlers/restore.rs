@@ -102,7 +102,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     }) + "\nRestore ? (y/n) ";
 
     if confirm(&prompt) {
-        restore_all(&items)?;
+        restore_all(items)?;
     }
 
     Ok(())

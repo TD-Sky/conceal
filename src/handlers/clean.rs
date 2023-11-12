@@ -22,7 +22,7 @@ pub fn clean(all: bool) -> Result<()> {
         let pwd = &env::current_dir()?;
         items.retain(|it| it.original_parent.starts_with(pwd));
     }
-    purge_all(&items)?;
+    purge_all(items)?;
 
     Ok(())
 }

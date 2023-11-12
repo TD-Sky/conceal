@@ -31,7 +31,7 @@ impl From<&'static str> for Error {
 impl Error {
     #[inline]
     pub fn handler(&self, binary: &'static str, writer: &mut dyn Write) {
-        if let Self::Trash(trash::Error::Io { path, base: e }) = self {
+        if let Self::Trash(trash::Error::FileSystem { path, source: e }) = self {
             let pwd = env::current_dir().unwrap();
             if let Ok(relative_path) = path.strip_prefix(pwd) {
                 writeln!(writer, "{binary}: {relative_path:?}: {e}").unwrap();
