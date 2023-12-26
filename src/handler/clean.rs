@@ -1,27 +1,21 @@
-use std::env;
-
-use trash::os_limited::list;
 use trash::os_limited::purge_all;
 
+use super::list::{items, render};
 use crate::error::Result;
-use crate::util::confirm;
+use crate::util::tui::confirm;
 
 pub fn clean(all: bool) -> Result<()> {
-    let recycle_bin = dirs::data_local_dir()
-        .map(|p| p.join("Trash"))
-        .expect("recycle bin not found");
-    let s = if all { "" } else { "for current directory" };
-    let prompt = &format!("Clean {recycle_bin:?} {s}? (y/n) ");
+    let items = items(all)?;
 
-    if !confirm(prompt) {
+    if items.is_empty() {
         return Ok(());
     }
 
-    let mut items = list()?;
-    if !all {
-        let pwd = &env::current_dir()?;
-        items.retain(|it| it.original_parent.starts_with(pwd));
+    let prompt = render(&items) + "\nClean above items? (y/n) ";
+    if !confirm(&prompt) {
+        return Ok(());
     }
+
     purge_all(items)?;
 
     Ok(())
