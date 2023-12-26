@@ -10,11 +10,12 @@ readme = "README.md"
 categories = ["command-line-utilities"]
 keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
+include = ["src/**/*", "Cargo.toml", "Cargo.lock", "LICENSE*", "README.md"]
 
 [dependencies]
 clap = { version = "4.4", features = ["derive", "env"] }
 dirs = "5.0"
-owo-colors = "3.5"
+owo-colors = "4.0"
 thiserror = "1"
 trash = { git = "https://github.com/Byron/trash-rs" }
 chrono = "0.4"
