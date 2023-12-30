@@ -14,18 +14,22 @@ You can use **conceal** to:
 
 
 
+## Finder
+
+`conceal restore` use [skim](https://github.com/lotabout/skim) and [**fzf**](https://github.com/junegunn/fzf) (default) as finder.
+You can choose either one with the `--finder` option whose value is also controlled by environment variable `CONCEAL_FINDER`.
+
+> Value priority: `--finder` > `CONCEAL_FINDER`
+
+Refer to `conceal restore -h` for more information.
+
+
+
 ## Installation
 
 ### Cargo
 
-**conceal** supports [skim](https://github.com/lotabout/skim) and [fzf](https://github.com/junegunn/fzf)
-as finder. You can choose either one with the environment variable
-`CONCEAL_FINDER` (value: `skim` | `fzf`). The default one is `skim`.
-
-Also, you can override the `finder` argument when calling command.
-Refer to `conceal restore -h` for more information.
-
-You need to install finder before using **conceal**.
+You need to install finder [skim](https://github.com/lotabout/skim#installation) or [fzf](https://github.com/junegunn/fzf#installation) before using **conceal**.
 
 ```bash
 $ cargo install --git 'https://github.com/TD-Sky/conceal'
@@ -51,6 +55,6 @@ There are two binaries: `cnc` and `conceal`.
 
 `cnc` is to put files into recycle bin; `conceal` is to operate the recycle bin.
 
-[![demo](https://asciinema.org/a/571859.svg)](https://asciinema.org/a/571859?speed=2)
+[![demo](https://asciinema.org/a/629369.svg)](https://asciinema.org/a/629369?speed=2)
 
-**`Tab` is the multi-selection and multi-cancel key !!**
+**`Tab` is the multi-selection and multi-cancel key.**
