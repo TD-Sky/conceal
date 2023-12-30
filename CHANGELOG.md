@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - 2023-12-30
+
+### Documentation
+
+- Update show video
+
+### Features
+
+- Set `fzf` as the default fuzzy finder
+- Use `--cycle` for fuzzy finder
+- Alias `list` as `ls`
+- Print the items to be cleaned
+
+### Miscellaneous Tasks
+
+- Update `clap_complete_nushell`
+- Include the files to be published explicitly
+
+### Refactor
+
+- Better matrix
+
 ## [0.4.1] - 2023-07-11
 
 ### Bug Fixes
