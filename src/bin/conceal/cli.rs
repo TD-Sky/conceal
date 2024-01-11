@@ -15,7 +15,7 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum SubCommand {
     /// List the discarded entities
-    #[command(alias = "ls")]
+    #[command(visible_alias = "ls")]
     List {
         /// All discarded entities.
         /// If not, only list the entities discarded under current directory
@@ -24,6 +24,7 @@ pub enum SubCommand {
     },
 
     /// Restore entities discarded from the current directory
+    #[command(visible_alias = "rs")]
     Restore {
         #[arg(long, default_value_t, env = "CONCEAL_FINDER")]
         finder: Finder,

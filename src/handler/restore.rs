@@ -14,6 +14,11 @@ use crate::util::tui::confirm;
 pub fn restore(finder: &'static str) -> Result<()> {
     // Users only can restore files discarded under the current directory.
     let mut items = items(false)?;
+
+    if items.is_empty() {
+        return Ok(());
+    }
+
     let iwidth = (items.len() as f64).log10().ceil() as usize;
 
     let mut options = String::new();
