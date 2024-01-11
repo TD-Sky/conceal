@@ -1,6 +1,9 @@
 <h1 align="center">🌠 conceal 🌃</h1>
 
-
+<p align="center">
+  <a href="https://crates.io/crates/conceal"><img src="https://img.shields.io/crates/v/conceal.svg?style=flat-square" /></a>
+  <a href="https://crates.io/crates/conceal"><img src="https://img.shields.io/crates/d/conceal.svg?style=flat-square" /></a>
+</p>
 
 ## Introduction
 
