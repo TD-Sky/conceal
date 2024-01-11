@@ -35,7 +35,7 @@ Refer to `conceal restore -h` for more information.
 You need to install finder [skim](https://github.com/lotabout/skim#installation) or [fzf](https://github.com/junegunn/fzf#installation) before using **conceal**.
 
 ```bash
-$ cargo install --git 'https://github.com/TD-Sky/conceal'
+$ cargo install conceal
 ```
 
 ### AUR
