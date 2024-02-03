@@ -2,13 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2024-01-11
+## [0.5.1] - 2024-02-03
+
+### Features
+
+- *(cli)* Alias `restore` as `rs`
+- *(restore)* Keep silent when recycle bin is empty
+
+## [0.5.0] - 2024-02-03
 
 ### Documentation
 
 - *(readme)* Add crates.io shield
 
-## [0.4.2] - 2023-12-30
+## [0.4.2] - 2024-02-03
 
 ### Documentation
 
@@ -30,35 +37,19 @@ All notable changes to this project will be documented in this file.
 
 - *(workflow)* Better matrix
 
-## [0.4.1] - 2023-07-11
+## [0.4.1] - 2024-02-03
 
 ### Bug Fixes
 
 - *(clean)* Match path with prefix pattern instead of `==` (#6)
 
-## [0.4.0] - 2023-07-11
+## [0.4.0] - 2024-02-03
 
 ### Features
 
 - *(clean)* Clean for current directory by default, and clean for all with `-a` (#5)
 
-## [0.3.3] - 2023-06-23
-
-### Features
-
-- *(finder)* Support fzf
-
-### Miscellaneous Tasks
-
-- *(dependencies)* Upgrade dependencies
-
-## [0.3.2] - 2023-04-03
-
-### Features
-
-- *(completions)* Ignore the completions
-
-## [0.3.1] - 2023-03-29
+## [0.3.3] - 2024-02-03
 
 ### Documentation
 
@@ -66,37 +57,33 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-- *(cli)* Add `-a` to list all discarded entities
-- *(color)* Colorize with owo-colors
+- *(completions)* Ignore the completions
+- *(finder)* Support fzf
 
 ### Miscellaneous Tasks
 
 - *(dependencies)* Upgrade
+- *(dependencies)* Upgrade dependencies
 
-## [0.3.0] - 2023-03-28
-
-### Features
-
-- *(error)* Pretty error message and robuster existence determination
-
-## [0.2.0] - 2023-03-25
+## [0.3.1] - 2024-02-03
 
 ### Features
 
 - *(binary)* Separate `put` from other functuons
+- *(cli)* Add `-a` to list all discarded entities
+- *(color)* Colorize with owo-colors
+- *(error)* Pretty error message and robuster existence determination
 
 ### Refactor
 
 - *(project)* Use `time` instead of `chrono`
 - *(project)* Move all handlers into one module
 
-## [0.1.4] - 2022-11-10
+## [0.1.5] - 2024-02-03
 
 ### Bug Fixes
 - *(no category)* Right aligned brings prefix white spaces
 
-
-## [0.1.3] - 2022-11-10
 
 ### Workflows
 - *(no category)* Publish to github
