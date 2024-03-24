@@ -12,18 +12,28 @@ keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "Cargo.lock", "LICENSE*", "README.md"]
 
-[dependencies]
-clap = { version = "4.4", features = ["derive", "env"] }
+[workspace.dependencies]
+clap = "4.5"
+clap_complete = "4.5"
+clap_complete_nushell = "4.5"
 dirs = "5.0"
 owo-colors = "4.0"
 thiserror = "1"
-trash = "3.2"
+trash = "4.1"
 chrono = "0.4"
 
+[dependencies]
+clap = { workspace = true, features = ["derive", "env"] }
+dirs = { workspace = true }
+owo-colors = { workspace = true }
+thiserror = { workspace = true }
+trash = { workspace = true }
+chrono = { workspace = true }
+
 [build-dependencies]
-clap = { version = "4.4", features = ["derive", "env"] }
-clap_complete = "4.4"
-clap_complete_nushell = "4.4"
+clap = { workspace = true, features = ["derive", "env"] }
+clap_complete = { workspace = true }
+clap_complete_nushell = { workspace = true }
 
 [profile.release]
 lto = true
