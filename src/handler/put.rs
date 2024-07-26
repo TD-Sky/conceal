@@ -1,6 +1,8 @@
-use crate::error::Result;
 use std::path::Path;
+
 use trash::delete_all;
+
+use crate::error::Result;
 
 pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
     // Function `delete_all` wouldn't fail even if no file is specified.

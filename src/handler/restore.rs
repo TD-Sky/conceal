@@ -5,11 +5,11 @@ use std::process::{Command, Stdio};
 use owo_colors::OwoColorize;
 use trash::os_limited::restore_all;
 
-use super::list::items;
-use crate::error::{Error, Result};
-use crate::util;
-use crate::util::time::local_datetime;
-use crate::util::tui::confirm;
+use crate::{
+    error::{Error, Result},
+    handler::list::items,
+    util::{self, time::local_datetime, tui::confirm},
+};
 
 pub fn restore(finder: &'static str) -> Result<()> {
     // Users only can restore files discarded under the current directory.
@@ -57,7 +57,8 @@ pub fn restore(finder: &'static str) -> Result<()> {
         .write_all(options.as_bytes())?;
 
     // Linux shouldn't have UTF-8 problems
-    let selected = String::from_utf8(finder.wait_with_output()?.stdout).unwrap();
+    let selected = finder.wait_with_output()?.stdout;
+    let selected = String::from_utf8_lossy(&selected);
 
     // Select nothing,
     if selected.is_empty() {

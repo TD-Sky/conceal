@@ -1,11 +1,12 @@
 mod cli;
-use self::cli::Cli;
-use self::cli::SubCommand;
+
+use std::io::stderr;
+use std::process;
 
 use clap::Parser;
 use conceal::handler;
-use std::io::stderr;
-use std::process;
+
+use self::cli::{Cli, SubCommand};
 
 fn main() {
     let cli = Cli::parse();

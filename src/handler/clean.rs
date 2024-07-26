@@ -1,8 +1,10 @@
 use trash::os_limited::purge_all;
 
-use super::list::{items, render};
-use crate::error::Result;
-use crate::util::tui::confirm;
+use crate::{
+    error::Result,
+    handler::list::{items, render},
+    util::tui::confirm,
+};
 
 pub fn clean(all: bool) -> Result<()> {
     let items = items(all)?;

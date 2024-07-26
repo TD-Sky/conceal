@@ -1,10 +1,12 @@
 mod cli;
-use self::cli::Cli;
+
+use std::io::stderr;
+use std::process;
 
 use clap::Parser;
 use conceal::handler::put;
-use std::io::stderr;
-use std::process;
+
+use self::cli::Cli;
 
 fn main() {
     let cnc = Cli::parse();

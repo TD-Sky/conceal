@@ -1,5 +1,6 @@
-use clap::Parser;
 use std::path::PathBuf;
+
+use clap::Parser;
 
 /// Put entities into the recyle bin
 #[derive(Parser)]

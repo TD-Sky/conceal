@@ -4,9 +4,10 @@ use std::fmt::Write;
 use owo_colors::OwoColorize;
 use trash::TrashItem;
 
-use crate::error::Result;
-use crate::util;
-use crate::util::time::local_datetime;
+use crate::{
+    error::Result,
+    util::{self, time::local_datetime},
+};
 
 pub fn list(all: bool) -> Result<()> {
     items(all).map(|items| print!("{}", render(&items)))
