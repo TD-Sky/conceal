@@ -47,7 +47,7 @@ pub mod trash {
         if let Some(prefix) = prefix {
             items.retain_mut(|item| {
                 if let Ok(p) = item.original_parent.strip_prefix(prefix) {
-                    item.original_parent = p.to_owned();
+                    item.original_parent = p.into();
                     true
                 } else {
                     false
