@@ -40,11 +40,15 @@ pub fn restore(finder: &'static str) -> Result<()> {
         });
     let options = options.trim_end();
 
-    // conceal list current directory trash
-    // | <finder> --multi --ansi
-    // | conceal restore selected trash
     let mut finder = Command::new(finder)
-        .args(["-m", "--ansi", "--cycle"])
+        .args([
+            "--multi",
+            "--ansi",
+            "--reverse",
+            "--cycle",
+            "--bind",
+            "ctrl-a:select-all,ctrl-r:toggle-all",
+        ])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -56,7 +60,6 @@ pub fn restore(finder: &'static str) -> Result<()> {
         .unwrap()
         .write_all(options.as_bytes())?;
 
-    // Linux shouldn't have UTF-8 problems
     let selected = finder.wait_with_output()?.stdout;
     let selected = String::from_utf8_lossy(&selected);
 
