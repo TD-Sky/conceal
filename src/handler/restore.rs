@@ -1,5 +1,5 @@
 use std::fmt::Write as _;
-use std::io::Write;
+use std::io::{stdout, BufWriter, Write};
 use std::process::{Command, Stdio};
 
 use owo_colors::OwoColorize;
@@ -35,7 +35,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
                 "{i:0>iwidth$} {time} {src}",
                 i = i.bright_purple().bold(),
                 time = time.bright_yellow(),
-                src = src.to_string_lossy(),
+                src = src.display(),
             );
         });
     let options = options.trim_end();
@@ -70,8 +70,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     }
 
     let selected: Vec<usize> = selected
-        .trim_end() // Tail '\n' is forbidden for `split` here.
-        .split('\n')
+        .lines()
         .map(|item| {
             // There're white spaces at the left side of index
             // because of right aligned.
@@ -90,15 +89,14 @@ pub fn restore(finder: &'static str) -> Result<()> {
     }
     items.truncate(len);
 
-    // Ask the users if they want to restore.
-    let mut prompt = String::new();
+    let mut stdout = BufWriter::new(stdout());
     for item in &items {
         let src = item.original_path();
-        let _ = writeln!(prompt, "{src}", src = src.to_string_lossy());
+        writeln!(&mut stdout, "{}", src.display())?;
     }
-    prompt += "\nRestore above items? (y/n) ";
+    stdout.flush()?;
 
-    if confirm(&prompt) {
+    if confirm("\nRestore above items? (y/n) ") {
         restore_all(items)?;
     }
 

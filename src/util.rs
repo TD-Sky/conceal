@@ -14,17 +14,15 @@ pub mod time {
 }
 
 pub mod tui {
-    use std::io;
-    use std::io::{stdin, stdout};
-    use std::io::{Read, Write};
+    use std::io::{self, stdin, stdout, Read, Write};
 
     pub fn confirm(prompt: &str) -> bool {
-        let mut stdout = stdout();
         || -> io::Result<()> {
+            let mut stdout = stdout();
             stdout.write_all(prompt.as_bytes())?;
             stdout.flush()
         }()
-        .expect("Prompt failure");
+        .expect("prompt failure");
 
         stdin()
             .bytes()

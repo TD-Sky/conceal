@@ -1,3 +1,5 @@
+use std::io::{stdout, BufWriter};
+
 use trash::os_limited::purge_all;
 
 use crate::{
@@ -13,8 +15,8 @@ pub fn clean(all: bool) -> Result<()> {
         return Ok(());
     }
 
-    let prompt = render(&items) + "\nClean above items? (y/n) ";
-    if !confirm(&prompt) {
+    render(&mut BufWriter::new(stdout()), &items)?;
+    if !confirm("\nClean above items? (y/n) ") {
         return Ok(());
     }
 
