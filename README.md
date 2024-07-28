@@ -26,6 +26,23 @@ You can choose either one with the `--finder` option whose value is also control
 
 Refer to `conceal restore -h` for more information.
 
+### Finder options
+
+`conceal` predefines some options of finder command to make an ergonomic interface:
+`--multi --ansi --reverse --cycle --bind='ctrl-a:select-all,ctrl-r:toggle-all'`.
+You can add more options you like via environment variable `FZF_DEFAULT_COMMAND`.
+
+> fzf options reference: `man 1 fzf`
+
+Key bindings:
+
+| Key | Action |
+| :- | :-: |
+| `ctrl-a` | select all items |
+| `ctrl-r` | **toggle** all items |
+
+> **Toggle**: select the unselected, unselect the selected.
+
 
 
 ## Installation
