@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.3] - 2024-07-28
+
+### Documentation
+
+- *(readme)* Finder options
+
+### Features
+
+- *(fzf)* Dress up fzf
+
+### Miscellaneous Tasks
+- *(no category)* Sort used items
+
+
+### Refactor
+
+- *(output)* Use `BufWriter` instead of collecing string
+
 ## [0.5.1] - 2024-02-03
 
 ### Features
@@ -83,6 +101,14 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 - *(no category)* Right aligned brings prefix white spaces
+
+
+### Documentation
+- *(no category)* Doc
+
+
+### Miscellaneous Tasks
+- *(no category)* Bump dependencies; use macro `command` instead of `clap`
 
 
 ### Workflows

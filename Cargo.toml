@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.5.2"
+version = "0.5.3"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2021"
 description = "Command line recycle bin"
@@ -37,4 +37,3 @@ clap_complete_nushell = { workspace = true }
 
 [profile.release]
 lto = true
-strip = true
