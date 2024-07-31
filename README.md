@@ -38,10 +38,8 @@ Key bindings:
 
 | Key | Action |
 | :- | :-: |
-| `ctrl-a` | select all items |
-| `ctrl-r` | **toggle** all items |
-
-> **Toggle**: select the unselected, unselect the selected.
+| `ctrl-a` | Select all items |
+| `ctrl-r` | Inverse selection of all items |
 
 
 
