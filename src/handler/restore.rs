@@ -8,7 +8,7 @@ use trash::os_limited::restore_all;
 use crate::{
     error::{Error, Result},
     handler::list::items,
-    util::{self, time::local_datetime, tui::confirm},
+    util::{self, time::local_datetime, tui::confirm_or_yes},
 };
 
 pub fn restore(finder: &'static str) -> Result<()> {
@@ -96,7 +96,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     }
     stdout.flush()?;
 
-    if confirm("\nRestore above items? (y/n) ") {
+    if confirm_or_yes("Restore above items?") {
         restore_all(items)?;
     }
 

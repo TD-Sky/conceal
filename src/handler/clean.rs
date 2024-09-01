@@ -5,7 +5,7 @@ use trash::os_limited::purge_all;
 use crate::{
     error::Result,
     handler::list::{items, render},
-    util::tui::confirm,
+    util::tui::confirm_or_no,
 };
 
 pub fn clean(all: bool) -> Result<()> {
@@ -16,7 +16,7 @@ pub fn clean(all: bool) -> Result<()> {
     }
 
     render(&mut BufWriter::new(stdout()), &items)?;
-    if !confirm("\nClean above items? (y/n) ") {
+    if !confirm_or_no("Clean above items?") {
         return Ok(());
     }
 

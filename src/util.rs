@@ -14,7 +14,22 @@ pub mod time {
 pub mod tui {
     use std::io::{self, stdin, stdout, Read, Write};
 
-    pub fn confirm(prompt: &str) -> bool {
+    trait ReadExt {
+        fn read_u8(&mut self) -> Option<u8>;
+    }
+
+    impl<T> ReadExt for T
+    where
+        T: Read,
+    {
+        fn read_u8(&mut self) -> Option<u8> {
+            let mut byte = 0;
+            self.read_exact(std::slice::from_mut(&mut byte)).ok()?;
+            Some(byte)
+        }
+    }
+
+    fn confirm(prompt: &str, default: bool) -> bool {
         || -> io::Result<()> {
             let mut stdout = stdout();
             stdout.write_all(prompt.as_bytes())?;
@@ -22,12 +37,19 @@ pub mod tui {
         }()
         .expect("prompt failure");
 
-        stdin()
-            .bytes()
-            .next()
-            .and_then(|c| c.ok())
-            .map(|c| c == b'y' || c == b'Y')
-            .unwrap_or(false)
+        match stdin().read_u8() {
+            Some(b'\n') => default,
+            Some(c) => c == b'y' || c == b'Y',
+            None => false,
+        }
+    }
+
+    pub fn confirm_or_yes(prompt: &str) -> bool {
+        confirm(&format!("\n{prompt} [Y/n] "), true)
+    }
+
+    pub fn confirm_or_no(prompt: &str) -> bool {
+        confirm(&format!("\n{prompt} [y/N] "), false)
     }
 }
 
