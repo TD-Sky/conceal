@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.5.3"
+version = "0.5.4"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2021"
 description = "Command line recycle bin"
@@ -19,7 +19,7 @@ clap_complete_nushell = "4.5"
 dirs = "5.0"
 owo-colors = "4.0"
 thiserror = "1"
-trash = "5.0"
+trash = "5.1"
 chrono = "0.4"
 
 [dependencies]

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.4] - 2024-09-01
+
+### Documentation
+
+- *(readme)* Inverse selection
+
+### Features
+
+- *(confirm)* Default confirmation: yes or no
+- *(error)* Improve error display
+
 ## [0.5.3] - 2024-07-28
 
 ### Documentation
