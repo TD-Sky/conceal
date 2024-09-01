@@ -1,6 +1,6 @@
 use std::env;
-use std::io;
-use std::io::Write;
+use std::io::{self, stderr, Write};
+use std::path::Path;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -9,7 +9,7 @@ pub enum Error {
     #[error(transparent)]
     Io(#[from] io::Error),
 
-    #[error(transparent)]
+    #[error("`trash` error: {0:#?}")]
     Trash(#[from] trash::Error),
 
     #[error("`{0}` not found")]
@@ -26,16 +26,19 @@ impl From<&'static str> for Error {
 }
 
 impl Error {
-    #[inline]
-    pub fn handler(&self, binary: &'static str, writer: &mut dyn Write) {
-        if let Self::Trash(trash::Error::FileSystem { path, source: e }) = self {
-            let pwd = env::current_dir().unwrap();
-            if let Ok(relative_path) = path.strip_prefix(pwd) {
-                writeln!(writer, "{binary}: {relative_path:?}: {e}").unwrap();
-                return;
+    pub fn print(&self, binary: &'static str) {
+        let mut stderr = stderr();
+
+        match self {
+            Self::Trash(trash::Error::FileSystem { path, source: e }) => {
+                let pwd = env::current_dir().unwrap();
+                if let Ok(relative_path) = path.strip_prefix(pwd).map(Path::display) {
+                    writeln!(stderr, "{binary}: {relative_path}: {e}").unwrap();
+                }
+            }
+            _ => {
+                writeln!(stderr, "{binary}: {self}").unwrap();
             }
         }
-
-        writeln!(writer, "{binary}: {self}").unwrap();
     }
 }

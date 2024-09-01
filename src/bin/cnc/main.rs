@@ -1,6 +1,5 @@
 mod cli;
 
-use std::io::stderr;
 use std::process;
 
 use clap::Parser;
@@ -12,7 +11,7 @@ fn main() {
     let cnc = Cli::parse();
 
     if let Err(e) = put(&cnc.entities) {
-        e.handler("cnc", &mut stderr().lock());
+        e.print("cnc");
         process::exit(1);
     };
 }

@@ -1,6 +1,5 @@
 mod cli;
 
-use std::io::stderr;
 use std::process;
 
 use clap::Parser;
@@ -19,7 +18,7 @@ fn main() {
     };
 
     if let Err(e) = result {
-        e.handler("conceal", &mut stderr().lock());
+        e.print("conceal");
         process::exit(1);
     }
 }
