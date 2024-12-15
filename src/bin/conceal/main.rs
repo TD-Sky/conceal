@@ -8,7 +8,13 @@ use conceal::handler;
 use self::cli::{Cli, SubCommand};
 
 fn main() {
+    #[allow(unused_variables)]
     let cli = Cli::parse();
+
+    #[cfg(target_os = "macos")]
+    {
+        return;
+    }
 
     use SubCommand::*;
     let result = match cli.command {
