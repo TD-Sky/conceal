@@ -5,6 +5,7 @@ mod cnc;
 #[path = "src/bin/conceal/cli.rs"]
 mod conceal;
 
+use cfg_aliases::cfg_aliases;
 use clap::{Command, CommandFactory};
 use clap_complete::generate_to;
 use clap_complete::Shell::{Bash, Fish, Zsh};
@@ -14,6 +15,16 @@ use std::io;
 use std::path::PathBuf;
 
 fn main() -> io::Result<()> {
+    cfg_aliases! {
+        free_unix: {
+            all(
+                unix,
+                not(target_os = "macos"),
+                not(target_os = "ios"),
+                not(target_os = "android")
+        )}
+    }
+
     generate_completions(&mut cnc::Cli::command(), "cnc")?;
     generate_completions(&mut conceal::Cli::command(), "conceal")?;
 

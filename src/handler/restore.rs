@@ -3,12 +3,6 @@ use std::io::{stdout, BufWriter, Write};
 use std::process::{Command, Stdio};
 
 use owo_colors::OwoColorize;
-#[cfg(all(
-    unix,
-    not(target_os = "macos"),
-    not(target_os = "ios"),
-    not(target_os = "android")
-))]
 use trash::os_limited::restore_all;
 
 use crate::{
@@ -103,19 +97,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     stdout.flush()?;
 
     if confirm_or_yes("Restore above items?") {
-        #[cfg(all(
-            unix,
-            not(target_os = "macos"),
-            not(target_os = "ios"),
-            not(target_os = "android")
-        ))]
-        {
-            restore_all(items)?;
-        }
-        #[cfg(target_os = "macos")]
-        {
-            unimplemented!()
-        }
+        restore_all(items)?;
     }
 
     Ok(())

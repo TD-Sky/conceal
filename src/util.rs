@@ -54,38 +54,23 @@ pub mod tui {
 }
 
 pub mod trash {
-    use std::path::Path;
+    #[cfg(free_unix)]
+    pub fn list(prefix: Option<&std::path::Path>) -> Result<Vec<trash::TrashItem>, trash::Error> {
+        use trash::os_limited::list as trash_list;
 
-    use trash::TrashItem;
-
-    #[allow(unused_variables)]
-    pub fn list(prefix: Option<&Path>) -> Result<Vec<TrashItem>, trash::Error> {
-        #[cfg(all(
-            unix,
-            not(target_os = "macos"),
-            not(target_os = "ios"),
-            not(target_os = "android")
-        ))]
-        {
-            use trash::os_limited::list as trash_list;
-            let mut items = trash_list()?;
-            if let Some(prefix) = prefix {
-                items.retain_mut(|item| {
-                    if let Ok(p) = item.original_parent.strip_prefix(prefix) {
-                        item.original_parent = p.into();
-                        true
-                    } else {
-                        false
-                    }
-                })
-            }
-            items.sort_by_key(|item| item.time_deleted);
-
-            Ok(items)
+        let mut items = trash_list()?;
+        if let Some(prefix) = prefix {
+            items.retain_mut(|item| {
+                if let Ok(p) = item.original_parent.strip_prefix(prefix) {
+                    item.original_parent = p.into();
+                    true
+                } else {
+                    false
+                }
+            })
         }
-        #[cfg(target_os = "macos")]
-        {
-            unimplemented!()
-        }
+        items.sort_by_key(|item| item.time_deleted);
+
+        Ok(items)
     }
 }
