@@ -26,7 +26,7 @@ impl From<&'static str> for Error {
 impl Error {
     pub fn print(&self, binary: &'static str) {
         match self {
-            #[cfg(free_unix)]
+            #[cfg(freedesktop)]
             Self::Trash(trash::Error::FileSystem { path, source: e }) => {
                 use std::path::Path;
 

@@ -1,10 +1,10 @@
-#[cfg(free_unix)]
+#[cfg(freedesktop)]
 mod clean;
 mod list;
 mod put;
-#[cfg(free_unix)]
+#[cfg(freedesktop)]
 mod restore;
 
-#[cfg(free_unix)]
+#[cfg(freedesktop)]
 pub use self::{clean::clean, restore::restore};
 pub use self::{list::list, put::put};

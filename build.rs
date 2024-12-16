@@ -16,7 +16,7 @@ use std::path::PathBuf;
 
 fn main() -> io::Result<()> {
     cfg_aliases! {
-        free_unix: {
+        freedesktop: {
             all(
                 unix,
                 not(target_os = "macos"),

@@ -54,7 +54,7 @@ pub mod tui {
 }
 
 pub mod trash {
-    #[cfg(free_unix)]
+    #[cfg(freedesktop)]
     pub fn list(prefix: Option<&std::path::Path>) -> Result<Vec<trash::TrashItem>, trash::Error> {
         use trash::os_limited::list as trash_list;
 
