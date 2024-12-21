@@ -1,12 +1,10 @@
+#[cfg(freedesktop)]
 mod clean;
 mod list;
 mod put;
+#[cfg(freedesktop)]
 mod restore;
 
-#[rustfmt::skip]
-pub use self::{
-    clean::clean,
-    list::list,
-    put::put,
-    restore::restore
-};
+#[cfg(freedesktop)]
+pub use self::{clean::clean, restore::restore};
+pub use self::{list::list, put::put};

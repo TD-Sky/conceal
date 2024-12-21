@@ -54,14 +54,11 @@ pub mod tui {
 }
 
 pub mod trash {
-    use std::path::Path;
+    #[cfg(freedesktop)]
+    pub fn list(prefix: Option<&std::path::Path>) -> Result<Vec<trash::TrashItem>, trash::Error> {
+        use trash::os_limited::list as trash_list;
 
-    use trash::os_limited::list as trash_list;
-    use trash::TrashItem;
-
-    pub fn list(prefix: Option<&Path>) -> Result<Vec<TrashItem>, trash::Error> {
         let mut items = trash_list()?;
-
         if let Some(prefix) = prefix {
             items.retain_mut(|item| {
                 if let Ok(p) = item.original_parent.strip_prefix(prefix) {

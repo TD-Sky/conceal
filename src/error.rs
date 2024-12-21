@@ -1,6 +1,4 @@
-use std::env;
-use std::io::{self, stderr, Write};
-use std::path::Path;
+use std::io;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -27,18 +25,17 @@ impl From<&'static str> for Error {
 
 impl Error {
     pub fn print(&self, binary: &'static str) {
-        let mut stderr = stderr();
-
         match self {
+            #[cfg(freedesktop)]
             Self::Trash(trash::Error::FileSystem { path, source: e }) => {
-                let pwd = env::current_dir().unwrap();
+                use std::path::Path;
+
+                let pwd = std::env::current_dir().unwrap();
                 if let Ok(relative_path) = path.strip_prefix(pwd).map(Path::display) {
-                    writeln!(stderr, "{binary}: {relative_path}: {e}").unwrap();
+                    eprintln!("{binary}: {relative_path}: {e}");
                 }
             }
-            _ => {
-                writeln!(stderr, "{binary}: {self}").unwrap();
-            }
+            _ => eprintln!("{binary}: {self}"),
         }
     }
 }

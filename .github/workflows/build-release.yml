@@ -1,0 +1,121 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-linux:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: riscv64gc-unknown-linux-gnu
+    runs-on: ${{ matrix.os }}
+    env:
+      CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+      CARGO_TARGET_RISCV64GC_UNKNOWN_LINUX_GNU_LINKER: riscv64-linux-gnu-gcc
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gcc-aarch64-linux-gnu
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: sudo apt update && sudo apt install -yq gcc-aarch64-linux-gnu
+
+      - name: Install gcc-riscv64-linux-gnu
+        if: matrix.target == 'riscv64gc-unknown-linux-gnu'
+        run: sudo apt update && sudo apt install -yq gcc-riscv64-linux-gnu
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: ${{ matrix.target }}
+
+      - name: Cache ~/.cargo and target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Pack Artifact
+        env:
+          ARTIFACT_NAME: conceal-${{ matrix.target }}
+        run: |
+          mkdir -p "$ARTIFACT_NAME"
+          cp target/${{ matrix.target }}/release/{cnc,conceal} -t "$ARTIFACT_NAME"
+          cp -r completions -t "$ARTIFACT_NAME"
+          cp README.md LICENSE -t "$ARTIFACT_NAME"
+          tar -zcvf "$ARTIFACT_NAME.tar.gz" -C "$ARTIFACT_NAME" .
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: conceal-${{ matrix.target }}.tar.gz
+          path: conceal-${{ matrix.target }}.tar.gz
+
+  build-macos:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: macos-latest
+            target: aarch64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: ${{ matrix.target }}
+
+      - name: Cache ~/.cargo and target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Pack Artifact
+        env:
+          ARTIFACT_NAME: conceal-${{ matrix.target }}
+        run: |
+          mkdir -p "$ARTIFACT_NAME"
+          cp target/${{ matrix.target }}/release/{cnc,conceal} "$ARTIFACT_NAME"
+          cp -r completions "$ARTIFACT_NAME"
+          cp README.md LICENSE "$ARTIFACT_NAME"
+          zip -r "$ARTIFACT_NAME.zip" "$ARTIFACT_NAME"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: conceal-${{ matrix.target }}.zip
+          path: conceal-${{ matrix.target }}.zip
+
+  release-draft:
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-macos]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Release Draft
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            conceal-*.tar.gz
+            conceal-*.zip
+          generate_release_notes: true
