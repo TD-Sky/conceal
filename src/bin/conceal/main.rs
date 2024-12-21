@@ -1,20 +1,18 @@
 mod cli;
 
-use std::process;
-
 use clap::Parser;
-use conceal::handler;
 
-use self::cli::{Cli, SubCommand};
+use cli::Cli;
 
+#[cfg(freedesktop)]
 fn main() {
-    #[allow(unused_variables)]
-    let cli = Cli::parse();
+    use std::process;
 
-    #[cfg(target_os = "macos")]
-    {
-        return;
-    }
+    use conceal::handler;
+
+    use cli::SubCommand;
+
+    let cli = Cli::parse();
 
     use SubCommand::*;
     let result = match cli.command {
@@ -27,4 +25,9 @@ fn main() {
         e.print("conceal");
         process::exit(1);
     }
+}
+
+#[cfg(not(freedesktop))]
+fn main() {
+    Cli::parse();
 }
