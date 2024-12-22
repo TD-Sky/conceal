@@ -9,6 +9,11 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
         return Err("Please specify the files to trash".into());
     }
 
+    #[cfg(freedesktop)]
+    {
+        trash::delete_all(items)?;
+    }
+
     #[cfg(target_os = "macos")]
     {
         use trash::{
@@ -18,10 +23,6 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
         let mut ctx = TrashContext::default();
         ctx.set_delete_method(DeleteMethod::NsFileManager);
         ctx.delete_all(items)?;
-    }
-    #[cfg(all(not(target_os = "macos"), not(target_os = "android")))]
-    {
-        trash::delete_all(items)?;
     }
 
     Ok(())
