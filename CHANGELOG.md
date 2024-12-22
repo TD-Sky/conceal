@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.6] - 2024-12-22
+
+### Bug Fixes
+
+- *(MacOS)* Delete (#13)
+
+### Features
+
+- *(Windows)* Support Windows (#14)
+
 ## [0.5.5] - 2024-12-21
 
 ### Features
