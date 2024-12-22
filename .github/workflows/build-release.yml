@@ -98,6 +98,43 @@ jobs:
           name: conceal-${{ matrix.target }}.zip
           path: conceal-${{ matrix.target }}.zip
 
+  build-windows:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: ${{ matrix.target }}
+
+      - name: Cache ~\.cargo and target
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Pack Artifact
+        env:
+          ARTIFACT_NAME: conceal-${{ matrix.target }}
+        run: |
+          New-Item -ItemType Directory -Path ${env:ARTIFACT_NAME}
+          Copy-Item -Path "target\${{ matrix.target }}\release\cnc.exe" -Destination ${env:ARTIFACT_NAME}
+          Copy-Item -Path "target\${{ matrix.target }}\release\conceal.exe" -Destination ${env:ARTIFACT_NAME}
+          Copy-Item -Path "completions" -Destination ${env:ARTIFACT_NAME} -Recurse
+          Copy-Item -Path "README.md", "LICENSE" -Destination ${env:ARTIFACT_NAME}
+          Compress-Archive -Path ${env:ARTIFACT_NAME} -DestinationPath "${env:ARTIFACT_NAME}.zip"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: conceal-${{ matrix.target }}.zip
+          path: conceal-${{ matrix.target }}.zip
+
   release-draft:
     if: startsWith(github.ref, 'refs/tags/')
     permissions:

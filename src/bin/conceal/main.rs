@@ -4,7 +4,7 @@ use clap::Parser;
 
 use cli::Cli;
 
-#[cfg(freedesktop)]
+#[cfg(any(freedesktop, target_os = "windows"))]
 fn main() {
     use std::process;
 
@@ -27,7 +27,7 @@ fn main() {
     }
 }
 
-#[cfg(not(freedesktop))]
+#[cfg(target_os = "macos")]
 fn main() {
     Cli::parse();
 }
