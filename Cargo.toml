@@ -19,7 +19,7 @@ clap_complete_nushell = "4.5"
 dirs = "5.0"
 owo-colors = "4.0"
 thiserror = "2"
-trash = "5.1"
+trash = "5.2.1"
 chrono = "0.4"
 cfg_aliases = "0.2"
 
