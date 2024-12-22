@@ -9,7 +9,7 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
         return Err("Please specify the files to trash".into());
     }
 
-    #[cfg(freedesktop)]
+    #[cfg(any(freedesktop, target_os = "windows"))]
     {
         trash::delete_all(items)?;
     }
