@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.7] - 2024-12-26
+
+### Bug Fixes
+
+- *(cargo)* Track `build.rs` and control generating completions
+
 ## [0.5.6] - 2024-12-22
 
 ### Bug Fixes
 
 - *(MacOS)* Delete (#13)
+- *(ci)* Wait build-windows job
 
 ### Features
 

@@ -42,11 +42,12 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Build
+        env:
+          CONCEAL_GEN_COMPLETIONS: true
         run: cargo build --release --locked --target ${{ matrix.target }}
 
       - name: Pack Artifact
         env:
-          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           mkdir -p "$ARTIFACT_NAME"
@@ -81,11 +82,12 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Build
+        env:
+          CONCEAL_GEN_COMPLETIONS: true
         run: cargo build --release --locked --target ${{ matrix.target }}
 
       - name: Pack Artifact
         env:
-          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           mkdir -p "$ARTIFACT_NAME"
@@ -118,11 +120,12 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Build
+        env:
+          CONCEAL_GEN_COMPLETIONS: true
         run: cargo build --release --locked --target ${{ matrix.target }}
 
       - name: Pack Artifact
         env:
-          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           New-Item -ItemType Directory -Path ${env:ARTIFACT_NAME}
