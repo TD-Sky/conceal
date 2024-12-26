@@ -46,6 +46,7 @@ jobs:
 
       - name: Pack Artifact
         env:
+          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           mkdir -p "$ARTIFACT_NAME"
@@ -84,6 +85,7 @@ jobs:
 
       - name: Pack Artifact
         env:
+          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           mkdir -p "$ARTIFACT_NAME"
@@ -120,6 +122,7 @@ jobs:
 
       - name: Pack Artifact
         env:
+          CONCEAL_GEN_COMPLETIONS: true
           ARTIFACT_NAME: conceal-${{ matrix.target }}
         run: |
           New-Item -ItemType Directory -Path ${env:ARTIFACT_NAME}

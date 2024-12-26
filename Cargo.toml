@@ -10,7 +10,7 @@ readme = "README.md"
 categories = ["command-line-utilities"]
 keywords = ["trash", "remove", "recycle", "freedesktop"]
 license = "MIT"
-include = ["src/**/*", "Cargo.toml", "Cargo.lock", "LICENSE*", "README.md"]
+include = ["src/**/*", "Cargo.toml", "Cargo.lock", "LICENSE*", "README.md", "build.rs"]
 
 [workspace.dependencies]
 clap = "4.5"
