@@ -37,7 +37,7 @@ pub enum SubCommand {
         finder: Finder,
 
         /// All discarded items.
-        /// If not, only clean the items discarded under current directory
+        /// If not, only emerge the items discarded under current directory
         #[arg(long, short)]
         all: bool,
     },

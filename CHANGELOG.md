@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2025-01-05
+
+### Features
+
+- *(conceal)* `delete` command (#15)
+
 ## [0.5.7] - 2024-12-26
 
 ### Bug Fixes
