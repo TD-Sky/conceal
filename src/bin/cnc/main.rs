@@ -10,7 +10,7 @@ use self::cli::Cli;
 fn main() {
     let cnc = Cli::parse();
 
-    if let Err(e) = put(&cnc.entities) {
+    if let Err(e) = put(&cnc.items) {
         e.print("cnc");
         process::exit(1);
     };
