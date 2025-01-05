@@ -20,12 +20,10 @@ You can use **conceal** to:
 
 ## Finder
 
-`conceal restore` use [skim](https://github.com/lotabout/skim) and [**fzf**](https://github.com/junegunn/fzf) (default) as finder.
+`conceal restore` and `conceal delete` use [skim](https://github.com/lotabout/skim) and [**fzf**](https://github.com/junegunn/fzf) (default) as finder.
 You can choose either one with the `--finder` option whose value is also controlled by environment variable `CONCEAL_FINDER`.
 
 > Value priority: `--finder` > `CONCEAL_FINDER`
-
-Refer to `conceal restore -h` for more information.
 
 ### Finder options
 
