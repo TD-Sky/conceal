@@ -10,10 +10,11 @@
 **conceal** is a command line tool based on [trash-rs](https://github.com/Byron/trash-rs) which implements [The FreeDesktop.org Trash specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html).
 
 You can use **conceal** to:
-- **Throw** the files **in** the trash bin;
-- **List** all the discarded files;
-- **Delete** all the discarded files permanently;
-- **Restore** files discarded under the current directory.
+- **Throw** the files **in** the recycle bin
+- **List** all the discarded files
+- **Restore** files discarded under the current directory
+- **Delete** discarded files permanently
+- **Clean** all the discarded files permanently
 
 
 
