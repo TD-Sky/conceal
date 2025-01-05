@@ -10,21 +10,20 @@
 **conceal** is a command line tool based on [trash-rs](https://github.com/Byron/trash-rs) which implements [The FreeDesktop.org Trash specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html).
 
 You can use **conceal** to:
-- **Throw** the files **in** the trash bin;
-- **List** all the discarded files;
-- **Delete** all the discarded files permanently;
-- **Restore** files discarded under the current directory.
+- **Throw** the files **in** the recycle bin
+- **List** all the discarded files
+- **Restore** files discarded under the current directory
+- **Delete** discarded files permanently
+- **Clean** all the discarded files permanently
 
 
 
 ## Finder
 
-`conceal restore` use [skim](https://github.com/lotabout/skim) and [**fzf**](https://github.com/junegunn/fzf) (default) as finder.
+`conceal restore` and `conceal delete` use [skim](https://github.com/lotabout/skim) and [**fzf**](https://github.com/junegunn/fzf) (default) as finder.
 You can choose either one with the `--finder` option whose value is also controlled by environment variable `CONCEAL_FINDER`.
 
 > Value priority: `--finder` > `CONCEAL_FINDER`
-
-Refer to `conceal restore -h` for more information.
 
 ### Finder options
 

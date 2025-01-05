@@ -14,26 +14,38 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum SubCommand {
-    /// List the discarded entities
+    /// List the discarded items
     #[command(visible_alias = "ls")]
     List {
-        /// All discarded entities.
-        /// If not, only list the entities discarded under current directory
+        /// All discarded items.
+        /// If not, only list the items discarded under current directory
         #[arg(long, short)]
         all: bool,
     },
 
-    /// Restore entities discarded from the current directory
+    /// Restore items discarded from the current directory
     #[command(visible_alias = "rs")]
     Restore {
         #[arg(long, default_value_t, env = "CONCEAL_FINDER")]
         finder: Finder,
     },
 
-    /// Delete the discarded entities permanently
+    /// Delete the discarded items permanently
+    #[command(visible_alias = "del")]
+    Delete {
+        #[arg(long, default_value_t, env = "CONCEAL_FINDER")]
+        finder: Finder,
+
+        /// All discarded items.
+        /// If not, only clean the items discarded under current directory
+        #[arg(long, short)]
+        all: bool,
+    },
+
+    /// Clean the discarded items permanently
     Clean {
-        /// All discarded entities.
-        /// If not, only clean the entities discarded under current directory
+        /// All discarded items.
+        /// If not, only clean the items discarded under current directory
         #[arg(long, short)]
         all: bool,
     },

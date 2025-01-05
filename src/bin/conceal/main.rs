@@ -18,6 +18,7 @@ fn main() {
     let result = match cli.command {
         List { all } => handler::list(all),
         Restore { finder } => handler::restore(finder.cmd()),
+        Delete { finder, all } => handler::delete(finder.cmd(), all),
         Clean { all } => handler::clean(all),
     };
 

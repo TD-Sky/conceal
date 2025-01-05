@@ -1,22 +1,58 @@
+use std::env;
 use std::fmt::Write as _;
-use std::io::{stdout, BufWriter, Write};
+use std::io::{self, stdout, BufWriter, Write};
 use std::process::{Command, Stdio};
 
 use owo_colors::OwoColorize;
-use trash::os_limited::restore_all;
+use trash::TrashItem;
 
 use crate::{
     error::{Error, Result},
-    handler::list::items,
-    util::{self, time::local_datetime, tui::confirm_or_yes},
+    util::{self, time::local_datetime},
 };
 
-pub fn restore(finder: &'static str) -> Result<()> {
-    // Users only can restore files discarded under the current directory.
-    let mut items = items(false)?;
+pub fn items(all: bool) -> Result<Vec<TrashItem>> {
+    let pwd = (!all).then(env::current_dir).transpose()?;
+
+    let mut items = trash::os_limited::list()?;
+    if let Some(prefix) = pwd.as_deref() {
+        items.retain_mut(|item| {
+            if let Ok(p) = item.original_parent.strip_prefix(prefix) {
+                item.original_parent = p.into();
+                true
+            } else {
+                false
+            }
+        })
+    }
+    items.sort_by_key(|item| item.time_deleted);
+
+    Ok(items)
+}
+
+pub fn render<'a>(
+    w: &mut dyn Write,
+    items: impl IntoIterator<Item = &'a TrashItem>,
+) -> io::Result<()> {
+    for item in items {
+        let time = local_datetime(item.time_deleted).format(util::time::FORMAT);
+        let src = item.original_path();
+        writeln!(
+            w,
+            "{time} {src}",
+            time = time.bright_yellow(),
+            src = src.display()
+        )?;
+    }
+
+    w.flush()
+}
+
+pub fn select_items(finder: &'static str, all: bool) -> Result<Vec<TrashItem>> {
+    let mut items = items(all)?;
 
     if items.is_empty() {
-        return Ok(());
+        return Ok(vec![]);
     }
 
     let iwidth = (items.len() as f64).log10().ceil() as usize;
@@ -66,7 +102,7 @@ pub fn restore(finder: &'static str) -> Result<()> {
     // Select nothing,
     if selected.is_empty() {
         // Keep silent.
-        return Ok(());
+        return Ok(vec![]);
     }
 
     let selected: Vec<usize> = selected
@@ -96,9 +132,5 @@ pub fn restore(finder: &'static str) -> Result<()> {
     }
     stdout.flush()?;
 
-    if confirm_or_yes("Restore above items?") {
-        restore_all(items)?;
-    }
-
-    Ok(())
+    Ok(items)
 }
