@@ -12,8 +12,8 @@ use std::path::PathBuf;
 
 use cfg_aliases::cfg_aliases;
 use clap::{Command, CommandFactory};
-use clap_complete::generate_to;
 use clap_complete::Shell::{Bash, Fish, PowerShell, Zsh};
+use clap_complete::generate_to;
 use clap_complete_nushell::Nushell;
 
 fn main() -> io::Result<()> {

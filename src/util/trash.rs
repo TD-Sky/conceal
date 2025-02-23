@@ -1,6 +1,6 @@
 use std::env;
 use std::fmt::Write as _;
-use std::io::{self, stdout, BufWriter, Write};
+use std::io::{self, BufWriter, Write, stdout};
 use std::process::{Command, Stdio};
 
 use owo_colors::OwoColorize;

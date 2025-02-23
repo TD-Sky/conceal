@@ -1,5 +1,5 @@
 #[cfg(any(freedesktop, target_os = "windows"))]
-use std::io::{stdout, BufWriter};
+use std::io::{BufWriter, stdout};
 use std::path::Path;
 
 use crate::error::Result;
@@ -24,8 +24,8 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
     #[cfg(target_os = "macos")]
     {
         use trash::{
-            macos::{DeleteMethod, TrashContextExtMacos},
             TrashContext,
+            macos::{DeleteMethod, TrashContextExtMacos},
         };
         let mut ctx = TrashContext::default();
         ctx.set_delete_method(DeleteMethod::NsFileManager);

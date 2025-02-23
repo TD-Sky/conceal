@@ -1,4 +1,4 @@
-use std::io::{self, stdin, stdout, Read, Write};
+use std::io::{self, Read, Write, stdin, stdout};
 
 trait ReadExt {
     fn read_u8(&mut self) -> Option<u8>;
