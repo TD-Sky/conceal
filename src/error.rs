@@ -28,12 +28,9 @@ impl Error {
         match self {
             #[cfg(freedesktop)]
             Self::Trash(trash::Error::FileSystem { path, source: e }) => {
-                use std::path::Path;
-
                 let pwd = std::env::current_dir().unwrap();
-                if let Ok(relative_path) = path.strip_prefix(pwd).map(Path::display) {
-                    eprintln!("{binary}: {relative_path}: {e}");
-                }
+                let path = path.strip_prefix(pwd).unwrap_or(path);
+                eprintln!("{binary}: {}: {e}", path.display());
             }
             _ => eprintln!("{binary}: {self}"),
         }
