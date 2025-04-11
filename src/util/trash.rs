@@ -69,7 +69,7 @@ pub fn select_items(finder: &'static str, all: bool) -> Result<Vec<TrashItem>> {
             let _ = writeln!(
                 options,
                 "{i:0>iwidth$} {time} {src}",
-                i = i.bright_purple().bold(),
+                i = (i + 1).bright_purple().bold(),
                 time = time.bright_yellow(),
                 src = src.display(),
             );
@@ -112,8 +112,9 @@ pub fn select_items(finder: &'static str, all: bool) -> Result<Vec<TrashItem>> {
             // because of right aligned.
             item.trim_start()
                 .split_once(' ') // white space between index and date time
-                .and_then(|(index, _)| index.parse().ok())
+                .and_then(|(index, _)| index.parse::<usize>().ok())
                 .unwrap() // will definitely succeed
+                - 1 // display index is 1-base
         })
         .rev() // The selected items is inverse by the index, rearrange them.
         .collect();
