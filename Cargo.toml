@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.6.0"
+version = "0.6.1"
 authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2024"
 description = "Command line recycle bin"

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2025-04-11
+
+### Bug Fixes
+
+- *(error)* Report file system error even though path can't be stripped
+
+### Miscellaneous Tasks
+
+- *(rust)* Bump to 2024
+
+### Refactor
+
+- *(selector)* 1-base display index
+
 ## [0.6.0] - 2025-01-05
 
 ### Features
