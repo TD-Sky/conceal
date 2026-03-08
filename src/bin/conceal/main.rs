@@ -16,10 +16,10 @@ fn main() {
 
     use SubCommand::*;
     let result = match cli.command {
-        List { all, since, before } => handler::list(all, since.as_deref(), before.as_deref()),
+        List { all, since, until } => handler::list(all, since.as_deref(), until.as_deref()),
         Restore { finder } => handler::restore(finder.cmd()),
         Delete { finder, all } => handler::delete(finder.cmd(), all),
-        Clean { all, since, before } => handler::clean(all, since.as_deref(), before.as_deref()),
+        Clean { all, since, until } => handler::clean(all, since.as_deref(), until.as_deref()),
     };
 
     if let Err(e) = result {

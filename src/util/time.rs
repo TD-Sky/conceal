@@ -16,26 +16,26 @@ pub fn local_datetime(unix_timestamp: i64) -> DateTime<Local> {
 pub fn retain_during(
     items: &mut Vec<TrashItem>,
     since: Option<&str>,
-    before: Option<&str>,
+    until: Option<&str>,
 ) -> Result<(), Error> {
     let since = since
         .map(|s| parse_timestamp_tz(s, Local).map(|t| t.latest().timestamp()))
         .transpose()?;
-    let before = before
+    let until = until
         .map(|s| parse_timestamp_tz(s, Local).map(|t| t.earliest().timestamp()))
         .transpose()?;
 
-    let f: &dyn Fn(&TrashItem) -> bool = match (since, before) {
+    let f: &dyn Fn(&TrashItem) -> bool = match (since, until) {
         (None, None) => return Ok(()),
-        (Some(since), Some(before)) => {
-            if since >= before {
-                return Err(Error::Msg("`since` should be less than `before`"));
+        (Some(since), Some(until)) => {
+            if since >= until {
+                return Err(Error::Msg("`since` should be less than `until`"));
             }
 
-            &(move |item| since <= item.time_deleted && item.time_deleted < before)
+            &(move |item| since <= item.time_deleted && item.time_deleted < until)
         }
         (Some(since), None) => &(move |item| since <= item.time_deleted),
-        (None, Some(before)) => &(move |item| item.time_deleted < before),
+        (None, Some(until)) => &(move |item| item.time_deleted < until),
     };
 
     items.retain(f);

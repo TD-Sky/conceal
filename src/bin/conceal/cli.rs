@@ -27,10 +27,10 @@ pub enum SubCommand {
         #[arg(long, short, value_name = "TIME")]
         since: Option<String>,
 
-        /// Clean items discarded before the point (excluding this point)
+        /// Clean items discarded until the point (excluding this point)
         /// (<TIME> follows systemd.time specifications)
         #[arg(long, short, value_name = "TIME")]
-        before: Option<String>,
+        until: Option<String>,
     },
 
     /// Restore items discarded from the current directory
@@ -64,10 +64,10 @@ pub enum SubCommand {
         #[arg(long, short, value_name = "TIME")]
         since: Option<String>,
 
-        /// Clean items discarded before the point (excluding this point)
+        /// Clean items discarded until the point (excluding this point)
         /// (<TIME> follows systemd.time specifications)
         #[arg(long, short, value_name = "TIME")]
-        before: Option<String>,
+        until: Option<String>,
     },
 }
 
