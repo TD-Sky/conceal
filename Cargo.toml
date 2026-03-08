@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.6.2"
+version = "0.7.0"
 edition = "2024"
 description = "Command line recycle bin"
 documentation = "https://github.com/TD-Sky/conceal"
