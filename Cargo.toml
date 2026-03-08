@@ -1,7 +1,6 @@
 [package]
 name = "conceal"
 version = "0.6.2"
-authors = ["Collide <three-dim-sky@foxmail.com>"]
 edition = "2024"
 description = "Command line recycle bin"
 documentation = "https://github.com/TD-Sky/conceal"
@@ -27,9 +26,9 @@ dirs = "6.0"
 owo-colors = "4.0"
 thiserror = "2"
 trash = "5.2"
-chrono = "0.4"
 cfg_aliases = "0.2"
-chrono-systemd-time = "0.4"
+jiff = "0.2"
+parse_datetime = "0.14"
 
 [dependencies]
 clap = { workspace = true, features = ["derive", "env"] }
@@ -37,8 +36,8 @@ dirs = { workspace = true }
 owo-colors = { workspace = true }
 thiserror = { workspace = true }
 trash = { workspace = true }
-chrono = { workspace = true }
-chrono-systemd-time = { workspace = true }
+jiff = { workspace = true }
+parse_datetime = { workspace = true }
 
 [build-dependencies]
 clap = { workspace = true, features = ["derive", "env"] }

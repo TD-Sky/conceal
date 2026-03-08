@@ -8,7 +8,7 @@ use trash::TrashItem;
 
 use crate::{
     error::{Error, Result},
-    util::{self, time::local_datetime},
+    util::time::{format_time, local_datetime},
 };
 
 pub fn items(all: bool) -> Result<Vec<TrashItem>> {
@@ -35,7 +35,8 @@ pub fn render<'a>(
     items: impl IntoIterator<Item = &'a TrashItem>,
 ) -> io::Result<()> {
     for item in items {
-        let time = local_datetime(item.time_deleted).format(util::time::FORMAT);
+        let time = local_datetime(item.time_deleted);
+        let time = format_time(&time);
         let src = item.original_path();
         writeln!(
             w,
@@ -64,7 +65,8 @@ pub fn select_items(finder: &'static str, all: bool) -> Result<Vec<TrashItem>> {
         .rev() // For getting closest to the files discarded recently.
         .for_each(|(i, item)| {
             let src = item.original_path();
-            let time = local_datetime(item.time_deleted).format(util::time::FORMAT);
+            let time = local_datetime(item.time_deleted);
+            let time = format_time(&time);
 
             let _ = writeln!(
                 options,
