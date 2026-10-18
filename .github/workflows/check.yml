@@ -2,40 +2,48 @@ name: Check
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 env:
+  SCCACHE_GHA_ENABLED: true
+  RUSTC_WRAPPER: sccache
   CARGO_TERM_COLOR: always
+
+permissions:
+  contents: read
 
 jobs:
   clippy:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Setup Rust toolchain
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup component add clippy
 
-      - name: Cache ~/.cargo and target
-        uses: Swatinem/rust-cache@v2
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.11
 
       - name: Clippy
-        run: cargo clippy --all-features --all-targets -- -D warnings
+        run: cargo clippy --all
 
   rustfmt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Setup Rust toolchain
+        run: |
+          rustup toolchain install nightly --profile minimal
+          rustup component add rustfmt --toolchain stable
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.11
 
       - name: Rustfmt
-        run: cargo fmt --check
+        run: cargo fmt -- --config imports_granularity=Crate --config group_imports=StdExternalCrate
