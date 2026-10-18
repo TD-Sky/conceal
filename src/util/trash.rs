@@ -1,7 +1,9 @@
-use std::env;
-use std::fmt::Write as _;
-use std::io::{self, BufWriter, Write, stdout};
-use std::process::{Command, Stdio};
+use std::{
+    env,
+    fmt::Write as _,
+    io::{self, BufWriter, Write, stdout},
+    process::{Command, Stdio},
+};
 
 use owo_colors::OwoColorize;
 use trash::TrashItem;

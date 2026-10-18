@@ -3,7 +3,7 @@ use jiff::{
     fmt::strtime::{self, BrokenDownTime},
     tz::TimeZone,
 };
-use parse_datetime::parse_datetime;
+use parse_datetime::{ParseDateTimeError, parse_datetime};
 use trash::TrashItem;
 
 use crate::{Error, Result};
@@ -23,12 +23,18 @@ pub fn retain_during(
     since: Option<&str>,
     until: Option<&str>,
 ) -> Result<()> {
-    let since = since
-        .map(|s| parse_datetime(s).map(|t| t.timestamp().as_second()))
-        .transpose()?;
-    let until = until
-        .map(|s| parse_datetime(s).map(|t| t.timestamp().as_second()))
-        .transpose()?;
+    let f = |s: &str| -> Result<_, ParseDateTimeError> {
+        let t = parse_datetime(s)?;
+        let secs = t
+            .as_zoned()
+            .ok_or(ParseDateTimeError::InvalidInput)?
+            .timestamp()
+            .as_second();
+        Ok(secs)
+    };
+
+    let since = since.map(f).transpose()?;
+    let until = until.map(f).transpose()?;
 
     let f: &dyn Fn(&TrashItem) -> bool = match (since, until) {
         (None, None) => return Ok(()),

@@ -4,9 +4,12 @@ use std::path::Path;
 
 use crate::error::Result;
 #[cfg(any(freedesktop, target_os = "windows"))]
-use crate::util::{
-    trash::{items, render, select_items},
-    tui::{confirm_or_no, confirm_or_yes},
+use crate::{
+    cli::conceal::{CleanArgs, DeleteArgs, ListArgs, RestoreArgs},
+    util::{
+        trash::{items, render, select_items},
+        tui::{confirm_or_no, confirm_or_yes},
+    },
 };
 
 pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
@@ -36,9 +39,9 @@ pub fn put(items: &[impl AsRef<Path>]) -> Result<()> {
 }
 
 #[cfg(any(freedesktop, target_os = "windows"))]
-pub fn restore(finder: &'static str) -> Result<()> {
+pub fn restore(args: &RestoreArgs) -> Result<()> {
     // Users only can restore files discarded under the current directory.
-    let items = select_items(finder, false)?;
+    let items = select_items(args.finder.cmd(), false)?;
 
     if !items.is_empty() && confirm_or_yes("Restore above items?") {
         trash::os_limited::restore_all(items)?;
@@ -48,19 +51,19 @@ pub fn restore(finder: &'static str) -> Result<()> {
 }
 
 #[cfg(any(freedesktop, target_os = "windows"))]
-pub fn list(all: bool, since: Option<&str>, until: Option<&str>) -> Result<()> {
+pub fn list(args: &ListArgs) -> Result<()> {
     use crate::util::time;
 
-    let mut items = items(all)?;
-    time::retain_during(&mut items, since, until)?;
+    let mut items = items(args.all)?;
+    time::retain_during(&mut items, args.since.as_deref(), args.until.as_deref())?;
 
     render(&mut BufWriter::new(stdout()), &items)?;
     Ok(())
 }
 
 #[cfg(any(freedesktop, target_os = "windows"))]
-pub fn delete(finder: &'static str, all: bool) -> Result<()> {
-    let items = select_items(finder, all)?;
+pub fn delete(args: &DeleteArgs) -> Result<()> {
+    let items = select_items(args.finder.cmd(), args.all)?;
 
     if !items.is_empty() && confirm_or_yes("Delete above items?") {
         trash::os_limited::purge_all(items)?;
@@ -70,11 +73,11 @@ pub fn delete(finder: &'static str, all: bool) -> Result<()> {
 }
 
 #[cfg(any(freedesktop, target_os = "windows"))]
-pub fn clean(all: bool, since: Option<&str>, until: Option<&str>) -> Result<()> {
+pub fn clean(args: &CleanArgs) -> Result<()> {
     use crate::util::time;
 
-    let mut items = items(all)?;
-    time::retain_during(&mut items, since, until)?;
+    let mut items = items(args.all)?;
+    time::retain_during(&mut items, args.since.as_deref(), args.until.as_deref())?;
     if items.is_empty() {
         return Ok(());
     }
