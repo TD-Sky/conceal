@@ -1,6 +1,7 @@
 pub mod commands;
 pub mod error;
-mod util {
+mod utils {
+    mod alloc;
     pub mod time;
     #[cfg(any(freedesktop, target_os = "windows"))]
     pub mod trash;

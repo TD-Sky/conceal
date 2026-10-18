@@ -6,7 +6,7 @@ use crate::error::Result;
 #[cfg(any(freedesktop, target_os = "windows"))]
 use crate::{
     cli::conceal::{CleanArgs, DeleteArgs, ListArgs, RestoreArgs},
-    util::{
+    utils::{
         trash::{items, render, select_items},
         tui::{confirm_or_no, confirm_or_yes},
     },
@@ -52,7 +52,7 @@ pub fn restore(args: &RestoreArgs) -> Result<()> {
 
 #[cfg(any(freedesktop, target_os = "windows"))]
 pub fn list(args: &ListArgs) -> Result<()> {
-    use crate::util::time;
+    use crate::utils::time;
 
     let mut items = items(args.all)?;
     time::retain_during(&mut items, args.since.as_deref(), args.until.as_deref())?;
@@ -74,7 +74,7 @@ pub fn delete(args: &DeleteArgs) -> Result<()> {
 
 #[cfg(any(freedesktop, target_os = "windows"))]
 pub fn clean(args: &CleanArgs) -> Result<()> {
-    use crate::util::time;
+    use crate::utils::time;
 
     let mut items = items(args.all)?;
     time::retain_during(&mut items, args.since.as_deref(), args.until.as_deref())?;

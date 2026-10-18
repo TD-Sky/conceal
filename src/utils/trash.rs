@@ -10,7 +10,7 @@ use trash::TrashItem;
 
 use crate::{
     error::{Error, Result},
-    util::time::{format_time, local_datetime},
+    utils::time::{format_time, local_datetime},
 };
 
 pub fn items(all: bool) -> Result<Vec<TrashItem>> {
