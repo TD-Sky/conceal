@@ -2,7 +2,7 @@ use usage_rs::{Subcommands, ValueEnum};
 
 use crate::cli::Completion;
 
-/// Operate the recycle bin
+/// Operate the trash bin
 #[derive(usage_rs::Cli)]
 #[usage(bin = "conceal", version, completion)]
 pub struct Cli {
