@@ -1,11 +1,6 @@
-mod cli;
-
 use std::process;
 
-use clap::Parser;
-use conceal::handler::put;
-
-use self::cli::Cli;
+use conceal::{cli::cnc::Cli, commands::put};
 
 fn main() {
     let cnc = Cli::parse();

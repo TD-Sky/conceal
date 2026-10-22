@@ -3,6 +3,8 @@
 <p align="center">
   <a href="https://crates.io/crates/conceal"><img src="https://img.shields.io/crates/v/conceal.svg?style=flat-square" /></a>
   <a href="https://crates.io/crates/conceal"><img src="https://img.shields.io/crates/d/conceal.svg?style=flat-square" /></a>
+  <a href="https://github.com/td-sky/conceal/actions/workflows/check.yml"><img src="https://github.com/td-sky/conceal/actions/workflows/check.yml/badge.svg?style=flat-square" alt="Check"></a>
+  <a href="https://github.com/td-sky/conceal/actions/workflows/test.yml"><img src="https://github.com/td-sky/conceal/actions/workflows/test.yml/badge.svg?style=flat-square" alt="Test"></a>
 </p>
 
 ## Introduction
@@ -10,7 +12,7 @@
 **conceal** is a command line tool based on [trash-rs](https://github.com/Byron/trash-rs) which implements [The FreeDesktop.org Trash specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html).
 
 You can use **conceal** to:
-- **Throw** the files **in** the recycle bin
+- **Throw** the files **in** the trash bin
 - **List** all the discarded files
 - **Restore** files discarded under the current directory
 - **Delete** discarded files permanently
@@ -70,7 +72,7 @@ $ paru -S conceal-bin
 
 There are two binaries: `cnc` and `conceal`.
 
-`cnc` is to put files into recycle bin; `conceal` is to operate the recycle bin.
+`cnc` is to put files into trash bin; `conceal` is to operate the trash bin.
 
 [![demo](https://asciinema.org/a/629369.svg)](https://asciinema.org/a/629369?speed=2)
 
