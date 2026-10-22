@@ -1,6 +1,6 @@
 [package]
 name = "conceal"
-version = "0.7.0"
+version = "0.7.1"
 edition = "2024"
 description = "Command line trash bin"
 documentation = "https://github.com/TD-Sky/conceal"
@@ -19,7 +19,7 @@ include = [
 ]
 
 [dependencies]
-usage-rs = { version = "7.0", features = ["completions"] }
+usage-rs = { version = "7.1.1", features = ["completions"] }
 dirs = "7.0"
 owo-colors = "4.0"
 thiserror = "2"
